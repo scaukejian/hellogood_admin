@@ -27,17 +27,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="valid_status" property="validStatus" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="userResultMap" type="com.hellogood.http.vo.UserVO">
-    <id column="id" property="id" jdbcType="INTEGER"/>
-    <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
-    <result column="user_name" property="userName" jdbcType="VARCHAR"/>
-    <result column="sex" property="sex" jdbcType="VARCHAR"/>
-    <result column="age" property="age" jdbcType="INTEGER"/>
-    <result column="birthday" property="birthday" jdbcType="TIMESTAMP"/>
-    <result column="live_city" property="liveCity" jdbcType="VARCHAR"/>
-    <result column="check_status" property="checkStatus" jdbcType="VARCHAR"/>
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -101,28 +91,14 @@
     id, user_code, user_name, sex, age, height, weight, phone, weixin_name, degree, birthday, 
     constellation, marital_status, native_place, live_province, live_city, nationality, 
     school, company, job, characteristic_signature, check_status, create_time, update_time, 
-    valid_status
+    valid_status, remark
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hellogood.domain.UserExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from api_user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
 
   <!--listUserBySearch方法:多条件查找相应记录，返回列表结果-->
-  <select id="listUserBySearch" resultMap="userResultMap" parameterType="com.hellogood.http.vo.UserVO">
+  <select id="listUserBySearch" resultMap="BaseResultMap" parameterType="com.hellogood.http.vo.UserVO">
     select
     _user.id, _user.user_code, _user.user_name, _user.sex,
-    _user.age, _user.birthday, _user.live_city, _user.check_status, _user.create_time
+    _user.age, _user.birthday, _user.live_city, _user.check_status, _user.create_time, _user.remark
     FROM api_user _user
     <where>
       <if test="degree != null and degree != ''">
@@ -184,7 +160,7 @@
     select count(1) from (
     select
     _user.id, _user.user_code, _user.user_name, _user.sex,
-    _user.age, _user.live_city, _user.check_status, _user.create_time
+    _user.age, _user.birthday,  _user.live_city, _user.check_status, _user.create_time, _user.remark
     FROM api_user _user
     <where>
       <if test="degree != null and degree != ''">
@@ -239,8 +215,20 @@
     </where>
     ) temp
   </select>
-
-
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hellogood.domain.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from api_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -265,8 +253,8 @@
       native_place, live_province, live_city, 
       nationality, school, company, 
       job, characteristic_signature, check_status, 
-      create_time, update_time, valid_status
-      )
+      create_time, update_time, valid_status, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
       #{phone,jdbcType=VARCHAR}, #{weixinName,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
@@ -274,8 +262,8 @@
       #{nativePlace,jdbcType=VARCHAR}, #{liveProvince,jdbcType=VARCHAR}, #{liveCity,jdbcType=VARCHAR}, 
       #{nationality,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
       #{job,jdbcType=VARCHAR}, #{characteristicSignature,jdbcType=VARCHAR}, #{checkStatus,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{validStatus,jdbcType=INTEGER}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{validStatus,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hellogood.domain.User" >
     insert into api_user
@@ -355,6 +343,9 @@
       <if test="validStatus != null" >
         valid_status,
       </if>
+      <if test="remark != null" >
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -431,6 +422,9 @@
       </if>
       <if test="validStatus != null" >
         #{validStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -512,6 +506,9 @@
       <if test="record.validStatus != null" >
         valid_status = #{record.validStatus,jdbcType=INTEGER},
       </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -543,7 +540,8 @@
       check_status = #{record.checkStatus,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      valid_status = #{record.validStatus,jdbcType=INTEGER}
+      valid_status = #{record.validStatus,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -623,6 +621,9 @@
       <if test="validStatus != null" >
         valid_status = #{validStatus,jdbcType=INTEGER},
       </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -651,7 +652,8 @@
       check_status = #{checkStatus,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      valid_status = #{validStatus,jdbcType=INTEGER}
+      valid_status = #{validStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

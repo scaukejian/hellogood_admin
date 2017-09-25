@@ -66,19 +66,16 @@ window.hellogood.user = function() {
 		},
 		{
 			name : "备注",
-			dataIndex : 'userRemark',
+			dataIndex : 'remark',
 			renderer : function(data) {
 				var remark = '';
-				if (data.userRemark) {
-					remark = util.removeHTMLTag(data.userRemark);
+				if (data.remark != null) {
+					remark = util.removeHTMLTag(data.remark);
 					if (remark.length > 5) {
 						remark = remark.substr(0, 5).concat('...');
 					}
 				}
-				return "<a id='seeRemark'>"+remark+"</a>";
-			},
-			rendererCall:function(obj){
-				seeRemark(obj.data.id,obj.data.userRemark);
+				return remark;
 			}
 		}];
 

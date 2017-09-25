@@ -219,14 +219,18 @@ public class UserService {
             userVO.setBirthDayEndTime(DateUtil.stringToDate(DateUtil.dateToYMD(birthday_end) + " 23:59:59"));
         }
         long currentTime = System.currentTimeMillis();
-        List<UserVO> userVOList = userMapper.listUserBySearch(userVO);
+        List<User> userList = userMapper.listUserBySearch(userVO);
         logger.info("用户分页查询[SQL] 耗时..." + (System.currentTimeMillis() - currentTime));
         currentTime = System.currentTimeMillis();
-        for (UserVO vo : userVOList) {
-            if (vo.getBirthday() != null) {
+        List<UserVO> userVOList = new ArrayList<>();
+        for (User user : userList) {
+            UserVO vo = new UserVO();
+            vo.domain2Vo(user);
+            if (user.getBirthday() != null) {
                 vo.setAge(DateUtil.getAge(vo.getBirthday()));
             }
             supplement(vo);
+            userVOList.add(vo);
         }
         logger.info("用户分页查询[完善信息] 耗时..." + (System.currentTimeMillis() - currentTime));
         return userVOList;

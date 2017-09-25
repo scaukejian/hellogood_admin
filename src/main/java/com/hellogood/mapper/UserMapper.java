@@ -32,7 +32,7 @@ public interface UserMapper {
      * @param userVO
      * @return
      */
-    List<UserVO> listUserBySearch(UserVO userVO);
+    List<User> listUserBySearch(UserVO userVO);
 
     /**
      * 统计当前查询条件下用户总数

@@ -53,6 +53,8 @@ public class User {
 
     private Integer validStatus;
 
+    private String remark;
+
     public Integer getId() {
         return id;
     }
@@ -251,5 +253,13 @@ public class User {
 
     public void setValidStatus(Integer validStatus) {
         this.validStatus = validStatus;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

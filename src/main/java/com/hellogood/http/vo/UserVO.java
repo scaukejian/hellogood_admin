@@ -86,6 +86,16 @@ public class UserVO {
 
     private List<String> cityList;
 
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public List<String> getCityList() {
         return cityList;
     }
