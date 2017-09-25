@@ -1,0 +1,185 @@
+/*!
+ *  Font Awesome 3.2.1
+ *  the iconic font designed for Bootstrap
+ *  ------------------------------------------------------------------------------
+ *  The full suite of pictographic icons, examples, and documentation can be
+ *  found at http://fontawesome.io.  Stay up to date on Twitter at
+ *  http://twitter.com/fontawesome.
+ *
+ *  License
+ *  ------------------------------------------------------------------------------
+ *  - The Font Awesome font is licensed under SIL OFL 1.1 -
+ *    http://scripts.sil.org/OFL
+ *  - Font Awesome CSS, LESS, and SASS files are licensed under MIT License -
+ *    http://opensource.org/licenses/mit-license.html
+ *  - Font Awesome documentation licensed under CC BY 3.0 -
+ *    http://creativecommons.org/licenses/by/3.0/
+ *  - Attribution is no longer required in Font Awesome 3.0, but much appreciated:
+ *    "Font Awesome by Dave Gandy - http://fontawesome.io"
+ *
+ *  Author - Dave Gandy
+ *  ------------------------------------------------------------------------------
+ *  Email: dave@fontawesome.io
+ *  Twitter: http://twitter.com/davegandy
+ *  Work: Lead Product Designer @ Kyruus - http://kyruus.com
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../font/fontawesome-webfont.eot?v=3.2.1');
+  src: url('../font/fontawesome-webfont.eot?v=3.2.1') format('embedded-opentype'),
+  url('../font/fontawesome-webfont.woff?v=3.2.1') format('woff'),
+  url('../font/fontawesome-webfont.ttf?v=3.2.1') format('truetype'),
+  url('../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
+}
+/* FONT AWESOME CORE
+ * -------------------------- */
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: FontAwesome;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  *margin-right: .3em;
+}
+
+i{
+	font-size:19px;
+}
+
+/* BOOTSTRAP SPECIFIC CLASSES
+ * -------------------------- */
+/* Bootstrap 2.0 sprites.less reset */
+[class^="icon-"],
+[class*=" icon-"] {
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  margin-top: 0;
+}
+
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
+.icon-user:before {
+  content: "\0023";
+}
+.icon-user-a:before {
+  content: "\0022";
+}
+.icon-key:before {
+  content: "\002E";
+}
+.icon-th-list:before {
+  content: "\0030";
+}
+.icon-project-list:before {
+  content: "\002B";
+}
+.icon-etails-list:before {
+  content: "\0026";
+}
+.icon-eye:before {
+  content: "\0021";
+}
+.icon-pen:before {
+  content: "\003E";
+}
+.icon-search-time:before {
+  content: "\0031";
+}
+.icon-zoom-in:before {
+  content: "\0035";
+}
+.icon-FAQ:before {
+  content: "\0034";
+}
+.icon-plus:before {
+  content: "\003B";
+}
+.icon-remove:before {
+  content: "\003D";
+}
+.icon-agency:before {
+  content: "\002D";
+}
+.icon-chevron-left:before {
+  content: "\003A";
+}
+.icon-chevron-down:before {
+  content: "\0039";
+}
+.icon-chevron-top:before {
+  content: "\0046";
+}
+.icon-chevron-right:before {
+  content: "\0047";
+}
+.icon-chevron-left-f:before {
+  content: "\0037";
+}
+.icon-chevron-right-f:before {
+  content: "\0038";
+}
+.icon-calendar:before {
+  content: "\0041";
+}
+.icon-calendar-a:before {
+  content: "\002C";
+}
+
+.icon-time:before {
+  content: "\0032";
+}
+.icon-file:before {
+  content: "\0024";
+}
+.icon-file-a:before {
+  content: "\0025";
+}
+.icon-file-b:before {
+  content: "\0033";
+}
+.icon-notes:before {
+  content: "\0036";
+}
+.icon-run:before {
+  content: "\0040";
+}
+.icon-point:before {
+  content: "\003C";
+}
+.icon-calculate:before {
+  content: "\003F";
+}
+.icon-computer:before {
+  content: "\002F";
+}
+.icon-inbox:before {
+  content: "\002A";
+}
+
+.icon-wrench:before {
+  content: "\0028";
+}
+.icon-cog:before {
+  content: "\0027";
+}
+.icon-banner:before {
+  content: "\0029";
+}
+
+.icon-process:before {
+  content: "\0045";
+}
+.icon-arrow-left:before {
+  content: "\0043";
+}
+.icon-arrow-right:before {
+  content: "\0044";
+}

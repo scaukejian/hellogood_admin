@@ -1,0 +1,14 @@
+.my_title_out{overflow:hidden;height:40px;margin:5px auto;border-bottom:solid 1px #999;}
+.my_title{overflow:hidden;padding-top:5px;padding-left:8%;height:40px;line-height:40px;
+    font-size:medium; }
+.my_title div{float:left;text-align:center;width:100px;cursor:pointer;background-color:#eee;}
+.my_title_check{overflow:hidden;padding:5px;height:40px;line-height:40px;}
+.my_title_check div{float:left;text-align:center;width:65px;cursor:pointer;background-color:#eee;}
+.my_title div:hover{background-color:#999!important;}
+#user_box{display:block;}
+#user_box2{display:none;}
+#user_box3{display:none;}
+#user_box4{display:none;}
+.myShowBotton{cursor:pointer;border:solid 1px #333; width:40px; text-align:center;background-color:#eee; height:28px;line-height:28px;}
+.myShowBotton:hover{cursor:pointer;background-color:#999;}
+.tab{padding-left: 45%;font-size: 16px}

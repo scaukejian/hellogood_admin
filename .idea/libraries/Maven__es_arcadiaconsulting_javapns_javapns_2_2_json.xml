@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: es.arcadiaconsulting.javapns:javapns:2.2-json">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/es/arcadiaconsulting/javapns/javapns/2.2-json/javapns-2.2-json.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/es/arcadiaconsulting/javapns/javapns/2.2-json/javapns-2.2-json-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/es/arcadiaconsulting/javapns/javapns/2.2-json/javapns-2.2-json-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
