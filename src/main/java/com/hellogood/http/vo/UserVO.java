@@ -51,8 +51,6 @@ public class UserVO {
 
     private String characteristicSignature;
 
-    private String checkStatus;
-
     private Date createTime;
 
     private Date updateTime;
@@ -74,7 +72,6 @@ public class UserVO {
     private Integer minHeight;
 
     private Integer maxHeight;
-
 
     // 开始日期
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -350,14 +347,6 @@ public class UserVO {
 
     public void setCharacteristicSignature(String characteristicSignature) {
         this.characteristicSignature = characteristicSignature == null ? null : characteristicSignature.trim();
-    }
-
-    public String getCheckStatus() {
-        return checkStatus;
-    }
-
-    public void setCheckStatus(String checkStatus) {
-        this.checkStatus = checkStatus == null ? null : checkStatus.trim();
     }
 
     public Date getCreateTime() {

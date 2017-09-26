@@ -1,5 +1,6 @@
 package com.hellogood.service;
 
+import com.hellogood.constant.Code;
 import com.hellogood.constant.EhCacheCode;
 import com.hellogood.domain.*;
 import com.hellogood.exception.BusinessException;
@@ -32,6 +33,7 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,47 +57,25 @@ public class UserService {
     @Autowired
     private BaseDataMapper baseDataMapper;
 
-    /**
-     * 新增
-     *
-     * @param vo
-     */
-    public int add(UserVO vo) {
-        User domain = new User();
-        vo.vo2Domain(domain);
-        userMapper.insert(domain);
-        return domain.getId();
-    }
 
-    /**
-     * 删除
-     *
-     * @param id
-     */
-    public void delete(Integer id) {
-        userMapper.deleteByPrimaryKey(id);
-    }
-
-    /**
-     * 修改
-     *
-     * @param vo
-     */
-    @CacheEvict(value = EhCacheCode.CACHE_TYPE_USER, key = "#id")
-    public void update(UserVO vo) {
-        User domain = new User();
-        vo.vo2Domain(domain);
-        userMapper.updateByPrimaryKeySelective(domain);
-    }
-
-
-    /**
-     * 修改
-     *
-     * @param vo
-     */
-    @CacheEvict(value = EhCacheCode.CACHE_TYPE_USER, key = "#id")
-    public void updateSelective(UserVO vo) {
+    private void checkCommon(UserVO vo){
+        if (!RegexUtils.isUsername(vo.getUserCode()))
+            throw new BusinessException(RegexUtils.USERNAME_MSG);
+        if (StringUtils.isBlank(vo.getUserName()))
+            throw new BusinessException("操作失败: 姓名不能为空");
+        if (!RegexUtils.isMobileExact(vo.getPhone()))
+            throw new BusinessException(RegexUtils.PHONE_MSG);
+        if (StringUtils.isBlank(vo.getSex()))
+            throw new BusinessException("操作失败: 请选择性别");
+        if (vo.getBirthday() == null)
+            throw new BusinessException("操作失败: 请输入生日日期");
+        if (vo.getAge() != null && !RegexUtils.isPositiveInteger(String.valueOf(vo.getAge())))
+            throw new BusinessException("年龄"+RegexUtils.POSITIVE_INTEGER_MSG);
+        if (StringUtils.isBlank(vo.getWeixinName()))
+            throw new BusinessException("操作失败: 微信不能为空");
+        if (vo.getHeight() != null && !RegexUtils.isPositiveInteger(String.valueOf(vo.getHeight())))
+            throw new BusinessException("身高"+RegexUtils.POSITIVE_INTEGER_MSG);
+        //常住城市
         if (StringUtils.isNotBlank(vo.getLiveCity())) {
             Area area = areaService.getEqualsCityName(vo.getLiveCity().trim());
             if (area == null) {
@@ -104,8 +84,74 @@ public class UserService {
             Province province = provinceService.getByCode(area.getParentId());
             vo.setLiveProvince(province != null ? province.getName() : "");
         }
+        vo.setRemark(DataUtil.strToconent(vo.getRemark())); //过滤编辑器的特殊格式
+    }
+
+    /**
+     * 新增
+     *
+     * @param vo
+     */
+    public int add(UserVO vo) {
+        checkCommon(vo);
+        //判断用户名是否重复
+        if (getByUserCode(vo.getUserCode()) != null) throw new BusinessException("已存在该账号用户，请重新起名");
+        //判断手机号码是否重复
+        if (getByPhone(vo.getPhone(), null) != null)  throw new BusinessException("已存在该手机号用户，请用新手机号码");
         User domain = new User();
         vo.vo2Domain(domain);
+        domain.setCreateTime(new Date());
+        domain.setUpdateTime(new Date());
+        domain.setValidStatus(Code.STATUS_VALID);
+        userMapper.insert(domain);
+        return domain.getId();
+    }
+
+    /**
+     * 删除
+     * @param ids
+     */
+    public void delete(String ids) {
+        if (StringUtils.isBlank(ids)) throw new BusinessException("请选择要删除的记录");
+        String[] idStrArr = ids.split(",");
+        for (String idStr : idStrArr) {
+            Integer userId = Integer.parseInt(idStr);
+            User user = userMapper.selectByPrimaryKey(userId);
+            if (user == null) continue;
+            user.setValidStatus(Code.STATUS_INVALID);
+            userMapper.updateByPrimaryKeySelective(user);
+        }
+    }
+
+    /**
+     * 修改
+     * @param vo
+     */
+    @CacheEvict(value = EhCacheCode.CACHE_TYPE_USER, key = "#id")
+    public void update(UserVO vo) {
+        checkCommon(vo);
+        User domain = new User();
+        vo.vo2Domain(domain);
+        domain.setUpdateTime(new Date());
+        userMapper.updateByPrimaryKeySelective(domain);
+    }
+
+
+    /**
+     * 修改
+     * @param vo
+     */
+    @CacheEvict(value = EhCacheCode.CACHE_TYPE_USER, key = "#id")
+    public void updateSelective(UserVO vo) {
+        checkCommon(vo);
+        //判断是否更改了账号
+        User user = userMapper.selectByPrimaryKey(vo.getId());
+        if (user == null) throw new BusinessException("更新失败");
+        if (!StringUtils.equals(user.getUserCode(), vo.getUserCode())) throw new BusinessException("不能更改用户的账号");
+        if (getByPhone(vo.getPhone(), vo.getId()) != null) throw new BusinessException("已存在该手机号用户，请用新手机号码");
+        User domain = new User();
+        vo.vo2Domain(domain);
+        domain.setUpdateTime(new Date());
         userMapper.updateByPrimaryKeySelective(domain);
         //更新缓存
         userCacheManager.updateBaseInfo(vo.getId(), vo.getUserCode(), vo.getUserName(), vo.getSex(), Long.valueOf(vo.getBirthday().getTime()).toString());
@@ -293,9 +339,6 @@ public class UserService {
         if (StringUtils.isNotBlank(queryVo.getSex())) {
             criteria.andSexEqualTo(queryVo.getSex());
         }
-        if (StringUtils.isNotBlank(queryVo.getCheckStatus())) {
-            criteria.andCheckStatusEqualTo(queryVo.getCheckStatus());
-        }
         if (StringUtils.isNotBlank(queryVo.getLiveCity())) {
             criteria.andLiveCityLike(MessageFormat.format("%{0}%",
                     queryVo.getLiveCity()));
@@ -334,9 +377,6 @@ public class UserService {
         }
         if (StringUtils.isNotBlank(queryVo.getSex())) {
             criteria.andSexEqualTo(queryVo.getSex());
-        }
-        if (StringUtils.isNotBlank(queryVo.getCheckStatus())) {
-            criteria.andCheckStatusEqualTo(queryVo.getCheckStatus());
         }
         if (StringUtils.isNotBlank(queryVo.getLiveCity())) {
             criteria.andLiveCityLike(MessageFormat.format("%{0}%",
@@ -500,9 +540,6 @@ public class UserService {
         if (StringUtils.isNotBlank(userVO.getSex())) {
             criteria.andSexEqualTo(userVO.getSex());
         }
-        if (StringUtils.isNotBlank(userVO.getCheckStatus())) {
-            criteria.andCheckStatusEqualTo(userVO.getCheckStatus());
-        }
         List<Integer> idList = new ArrayList<Integer>();
         List<User> userList = userMapper.selectByExample(example);
         for (User user : userList) {
@@ -532,7 +569,6 @@ public class UserService {
         if (StringUtils.isNotBlank(userCode)) {
             criteria.andUserCodeLike(MessageFormat.format("%{0}%", userCode));
         }
-        criteria.andCheckStatusEqualTo("通过");
         List<User> users = userMapper.selectByExample(example);
         for (User user : users) {
             UserVO vo = new UserVO();
@@ -551,6 +587,23 @@ public class UserService {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUserCodeEqualTo(userCode);
+        List<User> users = userMapper.selectByExample(example);
+        if (!users.isEmpty()) {
+        	return users.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 通过手机号码查找对应用户
+     * @param phone
+     * @return
+     */
+    public User getByPhone(String phone, Integer userId) {
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andPhoneEqualTo(phone);
+        if (userId != null) criteria.andIdNotEqualTo(userId);
         List<User> users = userMapper.selectByExample(example);
         if (!users.isEmpty()) {
         	return users.get(0);

@@ -45,8 +45,6 @@ public class User {
 
     private String characteristicSignature;
 
-    private String checkStatus;
-
     private Date createTime;
 
     private Date updateTime;
@@ -221,14 +219,6 @@ public class User {
 
     public void setCharacteristicSignature(String characteristicSignature) {
         this.characteristicSignature = characteristicSignature == null ? null : characteristicSignature.trim();
-    }
-
-    public String getCheckStatus() {
-        return checkStatus;
-    }
-
-    public void setCheckStatus(String checkStatus) {
-        this.checkStatus = checkStatus == null ? null : checkStatus.trim();
     }
 
     public Date getCreateTime() {

@@ -30,9 +30,9 @@
                 </td>
             </tr>
             <tr>
-                <th>账号：</th>
+                <th>账号：<span class="required">*</span></th>
                 <td>
-                    <input class="form-control" name="userCode" id="user_userCode" readonly/>
+                    <input class="form-control" name="userCode" id="user_userCode" dataType="EnglishOrNumber" />
                     <input type="hidden" id="user_id" name="id">
                 </td>
                 <th>姓名：<span class="required">*</span></th>
@@ -41,9 +41,9 @@
                 </td>
             </tr>
             <tr>
-                <th>电话：</th>
+                <th>手机号：<span class="required">*</span></th>
                 <td>
-                    <input class="form-control" name="phone" id="user_phone" readonly/>
+                    <input class="form-control" name="phone" id="user_phone" />
                 </td>
                 <th>性别：<span class="required">*</span></th>
                 <td>
@@ -66,17 +66,17 @@
                 </td>
                 <th>年龄：</th>
                 <td>
-                    <input class="form-control" name="age" id="user_age" readonly/>
+                    <input class="form-control" name="age" id="user_age"/>
                 </td>
             </tr>
             <tr>
+                <th>微信：<span class="required">*</span></th>
+                <td>
+                    <input class="form-control" name="weixinName" id="user_weixinName" datatype="Require" />
+                </td>
                 <th>身高：</th>
                 <td>
-                    <input type="number" max="220" min="140" class="form-control" name="height" id="user_height"/>
-                </td>
-                <th>常住城市：<span class="required">*</span></th>
-                <td>
-                    <input class="form-control" name="liveCity" id="user_liveCity" dataType="Require"/>
+                    <input type="number" max="220" min="140" class="form-control" name="height" id="user_height" />
                 </td>
             </tr>
             <tr>
@@ -84,9 +84,9 @@
                 <td>
                     <input class="form-control" name="degree" id="user_degree" />
                 </td>
-                <th>星座：<span class="required">*</span></th>
+                <th>星座：</th>
                 <td>
-                    <input class="form-control" name="constellation" id="user_constellation" dataType="Require"/>
+                    <input class="form-control" name="constellation" id="user_constellation"/>
                 </td>
             </tr>
             <tr>
@@ -106,16 +106,15 @@
                 <td>
                     <input class="form-control" name="company" id="user_company" />
                 </td>
-                <th>公司:</th>
+                <th>职位:</th>
                 <td>
                     <input class="form-control" name="job" id="user_job" />
                 </td>
-
             </tr>
             <tr>
-                <th>微信:</th>
+                <th>常住城市：</th>
                 <td>
-                    <input class="form-control" name="weixinName" id="user_weixinName" />
+                    <input class="form-control" name="liveCity" id="user_liveCity"/>
                 </td>
                 <th></th>
                 <td>
@@ -129,43 +128,6 @@
             </tr>
             </tbody>
         </table>
-        <div id="profileOperationDiv" style="clear:both; padding: 20px;text-align: center">
-            <button class="btn" style="background-color: rgb(9, 152, 84)" id="updateUserProfileBtn"
-                    onclick="return false">修改
-            </button>
-        </div>
     </form>
 
 </div>
-
-<script type="text/javascript">
-    $(function () {
-        $('#userProfileFrom').css('display', 'block');
-    });
-
-    function updateRemark() {
-        var userId = $('#user_id').val();
-        var remark = $('#user_remark').val();
-        var vo = {'userId': userId, 'remark': remark};
-        util.hellogoodAjax({
-            url: 'user/updateUserRemark.do',
-            data: vo,
-            succFun: function (json) {
-                if (json.errorMsg) {
-                    $.Prompt(json.errorMsg);
-                    return;
-                }
-                $.Prompt('操作完成');
-            }
-        })
-    }
-
-    $('.my_title div').click(function () {
-        var divId = $(this).attr('id');
-        switch (divId) {
-            case 'profile' :
-                $('#userProfileFrom').css('display', 'block');
-                break;
-        }
-    });
-</script>

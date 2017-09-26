@@ -6,10 +6,11 @@ window.hellogood.user = function() {
 	var windowWidth = 650;
 	var windowHeight = 580;
 	var hasCheckbox = true;
-	var userGrid = null;
+	var _grid = null;
 	var columns = [
 		{
 			name : '账号',
+			width:'250px',
 			dataIndex : 'userCode',
 			renderer : function(data) {
 				if(data.userName != null && data.userName != ''){
@@ -39,21 +40,29 @@ window.hellogood.user = function() {
 			dataIndex : 'age'
 		},
 		{
-			name : '常住</br>城市',
-			dataIndex : 'liveCity'
+			name : '手机号',
+			dataIndex : 'phone'
 		},
 		{
-			name : '审核</br>状态',
-			renderer : function(data) {
-				if (data.checkStatus) {
-					return "<a id='update'>" + data.checkStatus
-						+ "</a>";
-				}
-				return "";
-			},
-			rendererCall : function(obj) {
-				showCheck(obj.data.id);
-			}
+			name : '微信号',
+			dataIndex : 'weixinName'
+		},
+		{
+			name : '生日',
+            renderer : function(data) {
+                if (data.birthday != null) {
+                    return util.date.toDate(data.birthday);
+                }
+                return '';
+            }
+		},
+		{
+			name : '公司',
+			dataIndex : 'company'
+		},
+		{
+			name : '职位',
+			dataIndex : 'job'
 		},
 		{
 			name : '注册时间',
@@ -66,6 +75,7 @@ window.hellogood.user = function() {
 		},
 		{
 			name : "备注",
+			width:'100px',
 			dataIndex : 'remark',
 			renderer : function(data) {
 				var remark = '';
@@ -81,21 +91,18 @@ window.hellogood.user = function() {
 
 	var operateCol = {
 		name : '操作',
-		align: "left",
+		align: "center",
 		renderer : function(data) {
-			var _html = '<a id="update"><font color="#F4D241"><b>修改</b></font></a>&nbsp;&nbsp;<a id="remark"><font color="#099854"><b>备注</b></font></a>';
+			var _html = '<a id="update"><font color="#099854"><b>修改</b></font></a>';
 			return _html;
 		},
 		rendererCall : function(obj) {
-			if ('remark' === obj.id) {
-				addUserRemark(obj.data.id);
-			} else {
-				updateUser(obj.data.id);
-			}
+            updateUser(obj.data.id);
 		}
 	};
+    columns.push(operateCol);
 
-	userGrid = grid({
+	_grid = grid({
 			renderTo : 'user_List_grid',
 			prefix : 'user',
 			checkboxs : {
@@ -105,159 +112,6 @@ window.hellogood.user = function() {
 			},
 			columns : columns
 		});
-
-	var seeRemark=function(userId,remark){
-		var showContent = msgBox({
-    		title : "备注内容详细",
-    		width : 600,
-    		height : 450,
-    		url : "user/list/user-userRemark.do",
-    		Btn : true,
-			middleBtn : true,
-			btnName : ['关闭'],
-			okHandle : function() {
-				showContent.close();
-			}
-    	});
-    	showContent.show();
-    	loadRemark(userId);
-	};
-	
-	/**
-	 * 展示用户审核记录
-	 */
-	var showCheck = function(userId) {
-		var showCheckBox = msgBox({
-			title : "用户审核记录",
-			width : 650,
-			height : 500,
-			url : "user/list/user-showCheck.do",
-		});
-		showCheckBox.show();
-		getShowCheck(userId);
-	};
-
-	/**
-	 * 获取审核记录
-	 */
-	var getShowCheck = function(userId) {
-		util
-				.hellogoodAjax({
-					url : "userCheck/getUserCheck/" + userId + ".do",
-					succFun : function(json) {
-						if (json.errorMsg) {
-							$.Prompt(json.errorMsg);
-							return;
-						}
-						if (json.dataList != null) {
-							var tr = "<tr><td width='20%'>审核人</td><td width='20%'>审核时间</td><td width='20%'>审核状态</td><td width='40%'>备注</td></tr>";
-							if (json.dataList.length > 0) {
-								for ( var index in json.dataList) {
-									tr += "<tr><td width='15%'>"
-											+ json.dataList[index].employeeVO.name
-											+ "</td><td width='15%'>"
-											+ util.date
-													.toDateAll(json.dataList[index].checkTime)
-											+ "</td><td width='10%'>"
-											+ getCheckState(json.dataList[index].checkState)
-											+ "</td><td width='50%'>"
-											+ json.dataList[index].remarks
-											+ "</td></tr>";
-								}
-							} else {
-								tr += "<tr><td colspan='4'><font color='red' ><strong>没有审核记录</strong></font></td></tr>";
-							}
-							$("#user_check_table").html(tr);
-						}
-					}
-				});
-	};
-
-	// 1.未审核 2.通过 3.拒绝
-	var getCheckState = function(checkState) {
-		var tip = '';
-		switch (checkState) {
-		case 1:
-			tip = '未审核';
-			break;
-		case 2:
-			tip = '通过';
-			break;
-		case 3:
-			tip = '拒绝';
-			break;
-		}
-		return tip;
-	};
-
-	/**
-	 * 添加备注
-	 */
-	var addUserRemark = function(userId) {
-		var viewUserMsgBox = msgBox({
-			title : '备注',
-			width : 800,
-			height : 600,
-			url : "user/list/user-userRemark.do",
-			btnName : [ "确定", "取消" ],
-			Btn : true,
-			middleBtn : true,
-			okHandle : function() {
-				var remark = CKEDITOR.instances.userRemarkEditor.getData();
-				if (remark == '') {
-					$.Prompt("备注内容不能为空");
-					$("#userRemarkEditor").focus();
-					return;
-				}
-				util.hellogoodAjax({
-					url : "user/updateUserRemark.do",
-					data : {
-						"remark" : remark,
-						"userId" : userId
-					},
-					succFun : function(json) {
-						if (json.errorMsg) {
-							$.Prompt(json.errorMsg);
-							return;
-						}
-						if (json.status == 'success') {
-							$.Prompt("保存成功");
-							viewUserMsgBox.close();
-							loadData(pageData.page, pageData.pageSize);
-						}
-					}
-				});
-			}
-		});
-		viewUserMsgBox.show();
-		loadRemark(userId);
-	};
-
-	/**
-	 * 加载备注
-	 */
-	var loadRemark = function(userId) {
-		util.hellogoodAjax({
-			url : "user/getRemark/" + userId + ".do",
-			succFun : function(json) {
-				if (json.errorMsg) {
-					$.Prompt(json.errorMsg);
-					return;
-				}
-				// HTML编辑器设置data数据
-				util.editComfig("userRemarkEditor", "user");
-				if (util.isNotBlank(json.data)
-						&& util.isNotBlank(json.data.remark)) {
-					CKEDITOR.instances.userRemarkEditor
-							.setData(json.data.remark)
-				}
-				for ( var index in json.userVo) {
-					$("#user_" + index).val(json.userVo[index])
-				}
-			}
-
-		});
-	};
 
 	var pageTool = page({
 		renderTo : "user_list_pagetool",
@@ -294,7 +148,7 @@ window.hellogood.user = function() {
 					$.Prompt(json.errorMsg);
 					return;
 				}
-				userGrid.addDatas({
+				_grid.addDatas({
 					rowDatas : json.dataList
 				});
 				pageTool.render(json.total, page);
@@ -306,7 +160,7 @@ window.hellogood.user = function() {
 	window.hellogood.userLoad = loadData;
 
 	var uiInit = function() {
-		userGrid.init();
+		_grid.init();
 		pageTool.init();
 	};
 
@@ -327,7 +181,7 @@ window.hellogood.user = function() {
 		viewUserMsgBox.show();
 		window.hellogood.updateUserMsgBox = viewUserMsgBox;
 		msgBoxDataInit();
-		getUser(id, 'VIEW');
+		getUser(id);
 		// 查看禁用下拉列表与文本框
 		$('form[id^="userProfileFrom"]').each(function() {
 			util.setReadonlyElement($(this));
@@ -348,16 +202,14 @@ window.hellogood.user = function() {
 			middleBtn : true,
 			btnName : [ "确定", "取消" ],
 			okHandle : function() {
-				if (!Validator.Validate($("#user_box")[0], 3))
-					return;
-				if (!isSubmit) {
-					return;
-				}
-				var uObj = util.serializeJson($("#user_box"));
+				if (!Validator.Validate($("#userProfileFrom")[0], 3)) return;
+               // if (!checkCommon(util.serializeJson($('#userProfileFrom')))) return;
+				var uObj = util.serializeJson($("#userProfileFrom"));
+                var remark = CKEDITOR.instances.userRemarkEditor.getData();
 				var dString = uObj.birthday;
 				dString = dString.replace(/-/g, "/");
 				uObj.birthday = new Date(dString);
-
+                uObj.remark = remark;
 				isSubmit = false;
 				util.hellogoodAjax({
 					url : 'user/add.do',
@@ -370,6 +222,10 @@ window.hellogood.user = function() {
 						if (json != null && json.status == 'success') {
 							$.Prompt("新增成功！");
 							$("input[name^='userId']").val(json.data);
+                            addUserMsgBox.close();
+                            setTimeout(function () {
+                                loadData(pageData.page, pageData.pageSize);
+                            }, 1500);
 						}
 					},
 					complete : function() {
@@ -380,7 +236,22 @@ window.hellogood.user = function() {
 		});
 		addUserMsgBox.show();
 		msgBoxDataInit();
+        util.editComfig("userRemarkEditor", "user", 0, 80);
 	};
+
+    var checkCommon = function (obj) {
+        if ('' != obj.age && !/^([1-9]\d*)$/.test(obj.age)) {
+            $.Prompt('年龄必须为正整数');
+            $('#user_age').focus();
+            return false;
+        }
+        if ('' != obj.height && !/^([1-9]\d*)$/.test(obj.height)) {
+            $.Prompt('身高必须为正整数');
+            $('#user_height').focus();
+            return false;
+        }
+        return true;
+    }
 
 	var showUpdateUserBox = function(id){
 		var updateUserMsgBox = msgBox({
@@ -390,15 +261,37 @@ window.hellogood.user = function() {
 			url : "user/list/user-saveOrUpdate.do",
 			Btn : true,
 			middleBtn : true,
-			btnName : [ "关闭" ],
-			okHandle : function() {
-				updateUserMsgBox.close();
+            btnName : [ "确定", "取消" ],
+            okHandle : function() {
+                if (!Validator.Validate($("#userProfileFrom")[0], 3)) return;
+                //if (!checkCommon(util.serializeJson($('#userProfileFrom')))) return;
+                var uObj = util.serializeJson($("#userProfileFrom"));
+                var dString = uObj.birthday;
+                dString = dString.replace(/-/g, "/");
+                uObj.birthday = new Date(dString);
+                uObj.remark = CKEDITOR.instances.userRemarkEditor.getData();
+                util.hellogoodAjax({
+                    url : 'user/update.do',
+                    data : uObj,
+                    succFun : function(json) {
+                        if (json.errorMsg) {
+                            $.Prompt(json.errorMsg);
+                            return;
+                        }
+                        if (json.status == 'success') {
+                            $.Prompt("修改成功！");
+                            updateUserMsgBox.close();
+                            loadData(pageData.page, pageData.pageSize);// 重新加载
+                        }
+                    }
+                });
 			}
 		});
 		window.hellogood.updateUserMsgBox = updateUserMsgBox;
 		updateUserMsgBox.show();
 		msgBoxDataInit();
-		getUser(id, 'EDIT');
+		getUser(id);
+       $('#user_userCode').attr("readonly","readonly");
 		return updateUserMsgBox;
 	}
 
@@ -406,40 +299,14 @@ window.hellogood.user = function() {
 
 		var updateUserMsgBox = showUpdateUserBox(id);
 
-
 		$('#user_birthday').change(function(){
-			console.log(' user_birthday change .... ');
 			var birthday = $('#user_birthday').val();
 			$('#user_birthday').val(util.date.getAge(birthday));
 		})
 
-		$('#updateUserProfileBtn').unbind('click').bind('click', function(){
-			if (!Validator.Validate($("#userProfileFrom")[0], 3))
-				return;
-			var uObj = util.serializeJson($("#userProfileFrom"));
-			var dString = uObj.birthday;
-			dString = dString.replace(/-/g, "/");
-			uObj.birthday = new Date(dString);
-			uObj.userRemark = CKEDITOR.instances.userRemarkEditor.getData();
-			util.hellogoodAjax({
-				url : 'user/update.do',
-				data : uObj,
-				succFun : function(json) {
-					if (json.errorMsg) {
-						$.Prompt(json.errorMsg);
-						return;
-					}
-					if (json.status == 'success') {
-						$.Prompt("修改成功！");
-						updateUserMsgBox.close();
-						loadData(pageData.page, pageData.pageSize);// 重新加载
-					}
-				}
-			});
-		})
 	};
 
-	var getUser = function(id, operateType) {
+	var getUser = function(id) {
 		util.hellogoodAjax({
 			url: "user/get/" + id + ".do",
 			succFun: function (json) {
@@ -449,9 +316,9 @@ window.hellogood.user = function() {
 				}
 				// HTML编辑器设置data数据
 				util.editComfig("userRemarkEditor", "user", 0, 80);
-				if (util.isNotBlank(json.data.userRemark)) {
+				if (util.isNotBlank(json.data.remark)) {
 					CKEDITOR.instances.userRemarkEditor
-						.setData(json.data.userRemark)
+						.setData(json.data.remark)
 				}
 				for (var index in json.data) {
 					if(json.data[index] == null){
@@ -462,7 +329,7 @@ window.hellogood.user = function() {
 						$("#user_" + index).val(
 							util.date.toDate(json.data[index]));
 					} else if (index == 'userRemark') {
-						$('#user_remark').val(json.data[index]);
+						$('#userRemarkEditor').val(json.data[index]);
 					}
 				}
 			}
@@ -475,12 +342,43 @@ window.hellogood.user = function() {
 			pageData.page = 1;
 			loadData(pageData.page, pageData.pageSize);
 		});
-
 		// 新增
 		$('#user_add').click(function() {
 			addUser();
 		});
+		// 删除
+		$('#user_del').click(function() {
+            delUser();
+		});
 	};
+
+    var delUser = function() {
+        var ids = _grid.getselecValues();
+        if (ids == null || ids.length == 0) {
+            $.Prompt("请选择需要删除的行! ");
+            return;
+        }
+        ui.dialogBox({
+            html : "确定删除选中的行？",
+            okHandle : function() {
+                util.hellogoodAjax({
+                    url : "user/delete/" + ids + ".do",
+                    succFun : function(json) {
+                        if (json.errorMsg) {
+                            $.Prompt(json.errorMsg);
+                            return;
+                        }
+                        if (json.status == "success") {
+                            $.Prompt("删除成功！");
+                            pageData.page = 1;
+                            loadData(pageData.page, pageData.pageSize);
+                        }
+                    }
+                });
+
+            }
+        });
+    };
 
 	var msgBoxDataInit = function() {
 		// 下拉初始化
@@ -561,7 +459,6 @@ window.hellogood.user = function() {
 		load : loadData,
 		msgBoxDataInit : msgBoxDataInit,
 		showUserInfo : showUserInfo,
-		showCheck : showCheck,
 		updateUserInfo : updateUser
 	};
 };

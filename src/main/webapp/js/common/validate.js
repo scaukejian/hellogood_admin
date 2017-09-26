@@ -12,7 +12,7 @@
 		errorMsg : "Email格式不正确"
 	},
 	Mobile : {
-		expression : /^(1[3|5|7|8]{1}\d{9})$/,
+		expression : /^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|(147))\d{8}$/,
 		errorMsg : "手机格式不正确"
 	},
 	TelePhone : {
@@ -28,7 +28,7 @@
 		errorMsg : "仅支持数字"
 	},
 	PositiveIntegers : {
-		expression : /^([1-9]\d*|0)$/,
+		expression : /^[1-9]\d*$/,
 		errorMsg : "仅支持正整数"
 	},
 	Positive : {
@@ -44,6 +44,10 @@
 		errorMsg : "仅支持英文字母或数字"
 	},
 	Chinese : {
+		expression : /^[\u0391-\uFFE5]+$/,
+		errorMsg : "仅支持中文字符"
+	},
+	QQ : {
 		expression : /^[\u0391-\uFFE5]+$/,
 		errorMsg : "仅支持中文字符"
 	},

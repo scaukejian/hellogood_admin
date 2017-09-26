@@ -67,51 +67,61 @@
                                 <input class="form-control" style="width:45%;float:left;" name="maxHeight"/>
                             </div>
                         </td>
-                        <th width="5%">电话：</th>
+                        <th width="5%">手机号：</th>
                         <td width="15%"><input type="text" name="phone"
                                                class="form-control"></td>
+                        <th width="5%">微信号：</th>
+                        <td width="15%"><input type="text" name="weixinName"
+                                               class="form-control"></td>
+                        <th>常住城市：</th>
+                        <td><input type="text" name="liveCity"
+                                   class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <th width="5%">学历：</th>
+                        <td width="15%"><input type="text" name="degree" class="form-control"></td>
+                        <th width="5%">星座：</th>
+                        <td width="15%"><input type="text" name="constellation" class="form-control"></td>
                         <th>婚姻状况:</th>
                         <td>
                             <select class="form-control" name="maritalStatus" id="user_maritalStatus_list">
                                 <option value="">请选择</option>
                             </select>
                         </td>
-                        <th>常住城市：</th>
-                        <td><input type="text" name="liveCity"
-                                   class="form-control"></td>
+                        <th width="5%">学校：</th>
+                        <td width="15%"><input type="text" name="school" class="form-control"></td>
                     </tr>
                     <tr>
-                    <tr>
-                    <th>注册时间：</th>
-                    <td>
-                        <div class="position form-group">
-                            <input class="form-control form_datetime"
-                                   onkeydown="javaScript:window.event.returnValue= false;"
-                                   name="startDate" id="startDate">
-                            <i class="icon-calendar-a"></i>
-                        </div>
-                    </td>
-                    <th>至：</th>
-                    <td>
-                        <div class="position form-group">
-                            <input class="form-control form_datetime"
-                                   onkeydown="javaScript:window.event.returnValue= false;"
-                                   name="deadline" id="deadline" dataType="Require"/>
-                            <i class="icon-calendar-a"></i>
-                        </div>
-                    </td>
-                        <th width="5%">审核状态：</th>
-                        <td width="15%">
-                            <select class="form-control" name="checkStatus">
-                                <option value="">请选择</option>
-                                <option value="审核中">审核中</option>
-                                <option value="通过">通过</option>
-                                <option value="拒绝">拒绝</option>
-                            </select>
+                        <th width="5%">公司：</th>
+                        <td width="15%"><input type="text" name="company" class="form-control"></td>
+                        <th width="5%">职位：</th>
+                        <td width="15%"><input type="text" name="job" class="form-control"></td>
+                        <th>注册时间：</th>
+                        <td>
+                            <div class="position form-group">
+                                <input class="form-control form_datetime"
+                                       onkeydown="javaScript:window.event.returnValue= false;"
+                                       name="startDate" id="startDate">
+                                <i class="icon-calendar-a"></i>
+                            </div>
                         </td>
-                    <td width="5%">
-                        <button type="button" id="user_list_select" class="btn btn-blue">查询</button>
-                    </td>
+                        <th>至：</th>
+                        <td>
+                            <div class="position form-group">
+                                <input class="form-control form_datetime"
+                                       onkeydown="javaScript:window.event.returnValue= false;"
+                                       name="deadline" id="deadline"/>
+                                <i class="icon-calendar-a"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="5%">备注：</th>
+                        <td width="15%"><input type="text" name="remark" class="form-control"></td>
+                        <th width="5%"></th>
+                        <td width="15%">
+                            <button type="button" id="user_list_select" class="btn btn-blue">查询</button>
+                        </td>
                     </tr>
                 </table>
             </form>
@@ -119,7 +129,8 @@
         <div id="userOperation_div">
             <ul>
                 <li class="ftl">
-                    <button type="button" class="btn btn-blue" id="user_add">新增</button>
+                    <button type="button" class="btn btn-blue" id="user_add">新增</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-blue" id="user_del">删除</button>
                 </li>
             </ul>
         </div>

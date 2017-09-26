@@ -69,15 +69,14 @@ public class UserController extends BaseController {
 
 	/**
 	 * 删除用户
-	 * 
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/delete/{id}.do")
-	public Map<String, Object> delete(@PathVariable Integer id) {
+	@RequestMapping("/delete/{ids}.do")
+	public Map<String, Object> delete(@PathVariable String ids, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		userService.delete(id);
+		userService.delete(ids);
 		map.put(STATUS, STATUS_SUCCESS);
 		return map;
 	}
