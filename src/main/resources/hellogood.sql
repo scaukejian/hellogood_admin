@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50523
 File Encoding         : 65001
 
-Date: 2017-09-26 18:33:43
+Date: 2017-09-27 16:57:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -807,7 +807,7 @@ CREATE TABLE `api_user` (
   `height` int(11) DEFAULT NULL COMMENT '身高',
   `weight` int(11) DEFAULT NULL COMMENT '体重',
   `phone` varchar(11) DEFAULT NULL COMMENT '个人手机',
-  `weixin_name` varchar(255) DEFAULT NULL COMMENT '微信号',
+  `weixin_name` varchar(50) DEFAULT NULL COMMENT '微信号',
   `degree` varchar(20) DEFAULT NULL COMMENT '学历',
   `birthday` datetime DEFAULT NULL COMMENT '生日',
   `constellation` varchar(10) DEFAULT NULL COMMENT '星座',
@@ -817,20 +817,44 @@ CREATE TABLE `api_user` (
   `live_city` varchar(20) DEFAULT NULL COMMENT '居住城市',
   `nationality` varchar(11) DEFAULT NULL COMMENT '民族',
   `school` varchar(64) DEFAULT NULL COMMENT '学校',
-  `company` varchar(64) DEFAULT NULL COMMENT '公司',
-  `job` varchar(20) DEFAULT NULL COMMENT '工作',
+  `company` varchar(200) DEFAULT NULL COMMENT '公司',
+  `job` varchar(32) DEFAULT NULL COMMENT '工作',
   `characteristic_signature` varchar(255) DEFAULT NULL COMMENT '个性签名',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间（注册时间）',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `valid_status` int(11) DEFAULT NULL COMMENT '有效状态（1为有效，0为无效）',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `qq` varchar(20) DEFAULT NULL COMMENT 'QQ',
+  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`) USING BTREE,
   KEY `user_code` (`user_code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3149 DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=3154 DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 
 -- ----------------------------
 -- Records of api_user
 -- ----------------------------
-INSERT INTO `api_user` VALUES ('1', 'scaukejian', '柯坚', '男', '27', '170', '50', '15989099048', 'kejian002', '本科', '1990-09-05 01:00:00', '处女座', '已婚', '广东湛江', '广东', '广州', '汉族', '华南农业大学', '易约', 'java研发', 'nothing is impossible', '2017-09-23 18:27:39', '2017-09-26 18:10:11', '1', '<h1><span style=\"color:#696969\">备注信息</span></h1>');
-INSERT INTO `api_user` VALUES ('3145', 'KJ', '柯坚', '男', '27', '170', null, '15989099047', 'kejian002', '本科', '1990-09-05 01:00:00', '天蝎座', '已婚', null, '广东', '广州', null, '华南农业大学', '易约', 'java研发工程师', null, '2017-09-26 10:29:22', '2017-09-26 17:38:02', '1', '测试');
+INSERT INTO `api_user` VALUES ('1', 'scaukejian', '柯坚', '男', '27', '170', '50', '15989099048', 'kejian002', '本科', '1990-09-05 01:00:00', '处女座', '已婚', '广东湛江', '广东', '广州', '汉族', '华南农业大学', '易约', 'java研发', 'nothing is impossible', '2017-09-23 18:27:39', '2017-09-27 14:16:18', '1', '<h1><span style=\"color:#696969\">备注信息</span></h1>', null, null);
+INSERT INTO `api_user` VALUES ('3145', 'SCAU_KJ', '柯坚', '男', '27', '170', '55', '15989099047', 'kejian002', '本科', '1990-09-05 01:00:00', '天蝎座', '已婚', null, '广东', '广州', null, '华南农业大学', '易约', 'java研发工程师', '我说过，我可以', '2017-09-26 10:29:22', '2017-09-27 16:20:21', '1', '测试', '954657344', '954657344@qq.com');
+
+-- ----------------------------
+-- Table structure for `api_user_photo`
+-- ----------------------------
+DROP TABLE IF EXISTS `api_user_photo`;
+CREATE TABLE `api_user_photo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `img_name` varchar(255) DEFAULT NULL COMMENT '图片地址',
+  `original_img_name` varchar(255) DEFAULT NULL COMMENT '图片原始名称',
+  `head_flag` int(11) DEFAULT NULL COMMENT '头像标识：1为头像，0为否',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `thumbnail_img_name` varchar(255) DEFAULT NULL COMMENT '临时图片名称',
+  PRIMARY KEY (`id`),
+  KEY `index_user_photo_user_id` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='用户相册表';
+
+-- ----------------------------
+-- Records of api_user_photo
+-- ----------------------------
+INSERT INTO `api_user_photo` VALUES ('9', '3145', '6_photo-fd987959-85e7-4672-8295-a62525f4ad54.jpg', 'photo-ed865269-c218-4d3f-908c-301761b5ef85.jpg', '1', '2017-09-27 14:40:03', '6_photo-fd987959-85e7-4672-8295-a62525f4ad54.jpg');
+INSERT INTO `api_user_photo` VALUES ('11', '1', '6_photo-d5bfa0c9-247f-47c2-9da8-de1b82eb8434.jpg', 'photo-ed865269-c218-4d3f-908c-301761b5ef85.jpg', '1', '2017-09-27 14:41:35', '6_photo-d5bfa0c9-247f-47c2-9da8-de1b82eb8434.jpg');
