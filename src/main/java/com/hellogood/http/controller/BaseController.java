@@ -656,7 +656,6 @@ public class BaseController {
         }
     }
      
-
      /**
       * 按参数规定长度和宽度绘制截图
       * @param suffix

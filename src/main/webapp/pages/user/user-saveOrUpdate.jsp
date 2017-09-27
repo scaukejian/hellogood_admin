@@ -32,8 +32,9 @@
             <tr>
                 <th>账号：<span class="required">*</span></th>
                 <td>
-                    <input class="form-control" name="userCode" id="user_userCode" dataType="EnglishOrNumber" />
+                    <input class="form-control" name="userCode" id="user_userCode" dataType="Require" />
                     <input type="hidden" id="user_id" name="id">
+                    <input type="hidden" name="headPhotoId" id="headPhotoId"/>
                 </td>
                 <th>姓名：<span class="required">*</span></th>
                 <td>
@@ -70,13 +71,33 @@
                 </td>
             </tr>
             <tr>
+                <th>身高：</th>
+                <td>
+                    <input type="number" max="220" min="140" class="form-control" name="height" id="user_height" />
+                </td>
+                <th>体重：</th>
+                <td>
+                    <input type="number"  class="form-control" name="weight" id="user_weight" />
+                </td>
+            </tr>
+            <tr>
                 <th>微信：<span class="required">*</span></th>
                 <td>
                     <input class="form-control" name="weixinName" id="user_weixinName" datatype="Require" />
                 </td>
-                <th>身高：</th>
+                <th>QQ：<span class="required">*</span></th>
                 <td>
-                    <input type="number" max="220" min="140" class="form-control" name="height" id="user_height" />
+                    <input class="form-control" name="qq" id="user_qq" datatype="Require" />
+                </td>
+            </tr>
+            <tr>
+                <th>Email：</th>
+                <td>
+                    <input class="form-control" name="email" id="user_email" />
+                </td>
+                <th>常住城市：</th>
+                <td>
+                    <input class="form-control" name="liveCity" id="user_liveCity"/>
                 </td>
             </tr>
             <tr>
@@ -96,32 +117,29 @@
                         <option value="">请选择</option>
                     </select>
                 </td>
-                <th>学校:</th>
+                <th>学校：</th>
                 <td>
                     <input class="form-control" name="school" id="user_school" />
                 </td>
             </tr>
             <tr>
-                <th>公司:</th>
+                <th>公司：</th>
                 <td>
                     <input class="form-control" name="company" id="user_company" />
                 </td>
-                <th>职位:</th>
+                <th>职位：</th>
                 <td>
                     <input class="form-control" name="job" id="user_job" />
                 </td>
             </tr>
             <tr>
-                <th>常住城市：</th>
-                <td>
-                    <input class="form-control" name="liveCity" id="user_liveCity"/>
-                </td>
-                <th></th>
-                <td>
+                <th>个性签名：</th>
+                <td colspan="3">
+                    <input class="form-control" name="characteristicSignature" id="user_characteristicSignature" />
                 </td>
             </tr>
             <tr>
-                <th>备注</th>
+                <th>备注：</th>
                 <td colspan="3">
                     <div id="userRemarkEditor"></div>
                 </td>

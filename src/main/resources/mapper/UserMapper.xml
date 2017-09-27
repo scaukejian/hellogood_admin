@@ -1,689 +1,717 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hellogood.mapper.UserMapper">
-    <resultMap id="BaseResultMap" type="com.hellogood.domain.User">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
-        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
-        <result column="sex" property="sex" jdbcType="VARCHAR"/>
-        <result column="age" property="age" jdbcType="INTEGER"/>
-        <result column="height" property="height" jdbcType="INTEGER"/>
-        <result column="weight" property="weight" jdbcType="INTEGER"/>
-        <result column="phone" property="phone" jdbcType="VARCHAR"/>
-        <result column="weixin_name" property="weixinName" jdbcType="VARCHAR"/>
-        <result column="degree" property="degree" jdbcType="VARCHAR"/>
-        <result column="birthday" property="birthday" jdbcType="TIMESTAMP"/>
-        <result column="constellation" property="constellation" jdbcType="VARCHAR"/>
-        <result column="marital_status" property="maritalStatus" jdbcType="VARCHAR"/>
-        <result column="native_place" property="nativePlace" jdbcType="VARCHAR"/>
-        <result column="live_province" property="liveProvince" jdbcType="VARCHAR"/>
-        <result column="live_city" property="liveCity" jdbcType="VARCHAR"/>
-        <result column="nationality" property="nationality" jdbcType="VARCHAR"/>
-        <result column="school" property="school" jdbcType="VARCHAR"/>
-        <result column="company" property="company" jdbcType="VARCHAR"/>
-        <result column="job" property="job" jdbcType="VARCHAR"/>
-        <result column="characteristic_signature" property="characteristicSignature" jdbcType="VARCHAR"/>
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
-        <result column="valid_status" property="validStatus" jdbcType="INTEGER"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
-    </resultMap>
-    <sql id="Example_Where_Clause">
-        <where>
-            <foreach collection="oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" suffix=")" prefixOverrides="and">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
-                                             separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
+<mapper namespace="com.hellogood.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.hellogood.domain.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="weixin_name" property="weixinName" jdbcType="VARCHAR" />
+    <result column="degree" property="degree" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="constellation" property="constellation" jdbcType="VARCHAR" />
+    <result column="marital_status" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="native_place" property="nativePlace" jdbcType="VARCHAR" />
+    <result column="live_province" property="liveProvince" jdbcType="VARCHAR" />
+    <result column="live_city" property="liveCity" jdbcType="VARCHAR" />
+    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="characteristic_signature" property="characteristicSignature" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="valid_status" property="validStatus" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
             </foreach>
-        </where>
-    </sql>
-    <sql id="Update_By_Example_Where_Clause">
-        <where>
-            <foreach collection="example.oredCriteria" item="criteria" separator="or">
-                <if test="criteria.valid">
-                    <trim prefix="(" suffix=")" prefixOverrides="and">
-                        <foreach collection="criteria.criteria" item="criterion">
-                            <choose>
-                                <when test="criterion.noValue">
-                                    and ${criterion.condition}
-                                </when>
-                                <when test="criterion.singleValue">
-                                    and ${criterion.condition} #{criterion.value}
-                                </when>
-                                <when test="criterion.betweenValue">
-                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                                </when>
-                                <when test="criterion.listValue">
-                                    and ${criterion.condition}
-                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
-                                             separator=",">
-                                        #{listItem}
-                                    </foreach>
-                                </when>
-                            </choose>
-                        </foreach>
-                    </trim>
-                </if>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
             </foreach>
-        </where>
-    </sql>
-    <sql id="Base_Column_List">
-        id, user_code, user_name, sex, age, height, weight, phone, weixin_name, degree, birthday,
-        constellation, marital_status, native_place, live_province, live_city, nationality,
-        school, company, job, characteristic_signature, create_time, update_time, valid_status,
-        remark
-    </sql>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_code, user_name, sex, age, height, weight, phone, weixin_name, degree, birthday, 
+    constellation, marital_status, native_place, live_province, live_city, nationality, 
+    school, company, job, characteristic_signature, create_time, update_time, valid_status, 
+    remark, qq, email
+  </sql>
 
-    <!--listUserBySearch方法:多条件查找相应记录，返回列表结果-->
-    <select id="listUserBySearch" resultMap="BaseResultMap" parameterType="com.hellogood.http.vo.UserVO">
-        select
-        _user.id, _user.user_code, _user.user_name,
-        _user.sex,_user.height,_user.weight,_user.phone,_user.weixin_name,_user.company, _user.job,
-        _user.age, _user.birthday, _user.live_city, _user.create_time, _user.remark
-        FROM api_user _user
-        <where>
-            <if test="degree != null and degree != ''">
-                and _user.degree = #{degree}
-            </if>
-            <if test="minHeight != null">
-                and _user.height >= #{minHeight}
-            </if>
-            <if test="maxHeight != null">
-                <![CDATA[ and _user.height <= #{maxHeight} ]]>
-            </if>
-            <if test="userName != null and userName !=''">
-                and _user.user_name like CONCAT('%',#{userName},'%')
-            </if>
-            <if test="userCode != null and userCode !=''">
-                and _user.user_code like CONCAT('%',#{userCode},'%')
-            </if>
-            <if test="phone != null and phone !=''">
-                and _user.phone like CONCAT('%',#{phone},'%')
-            </if>
-            <if test="weixinName != null and weixinName !=''">
-                and _user.weixin_name like CONCAT('%',#{weixinName},'%')
-            </if>
-            <if test="sex != null and sex !=''">
-                and _user.sex =#{sex}
-            </if>
-            <if test="constellation != null and constellation !=''">
-                and _user.constellation like CONCAT('%',#{constellation},'%')
-            </if>
-            <if test="school != null and school !=''">
-                and _user.school like CONCAT('%',#{school},'%')
-            </if>
-            <if test="company != null and company !=''">
-                and _user.company like CONCAT('%',#{company},'%')
-            </if>
-            <if test="job != null and job !=''">
-                and _user.job like CONCAT('%',#{job},'%')
-            </if>
-            <if test="remark != null and remark !=''">
-                and _user.remark like CONCAT('%',#{remark},'%')
-            </if>
-            <if test="liveCity != null and liveCity !=''">
-                and _user.live_city like CONCAT('%',#{liveCity},'%')
-            </if>
-            <if test="birthDayBeginTime != null"><!-- 精确查找到秒 -->
-                <![CDATA[ and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT(#{birthDayBeginTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')   ]]>
-            </if>
-            <if test="birthDayEndTime != null"><!-- 精确查找到秒，注意：birthDayEndTime 比 birthDayBeginTime 时间更早-->
-                <![CDATA[  and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(#{birthDayEndTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')    ]]>
-            </if>
-            <if test="startDate != null">
-                <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate,jdbcType=TIMESTAMP}, '%Y-%m-%d')   ]]>
-            </if>
-            <if test="deadline != null">
-                <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{deadline,jdbcType=TIMESTAMP}, '%Y-%m-%d')    ]]>
-            </if>
-            <if test="maritalStatus != null and maritalStatus !=''">
-                and _user.marital_status =#{maritalStatus}
-            </if>
-            <if test="cityList != null">
-                AND _user.live_city in
-                <foreach item="item" index="index" collection="cityList"
-                         open="(" separator="," close=")">
-                    #{item}
-                </foreach>
-            </if>
-            and _user.valid_status = 1
-        </where>
-        order by _user.create_time desc
-        limit #{page}, #{pageSize}
-    </select>
+  <!--listUserBySearch方法:多条件查找相应记录，返回列表结果-->
+  <select id="listUserBySearch" resultMap="BaseResultMap" parameterType="com.hellogood.http.vo.UserVO">
+    select
+    _user.id, _user.user_code, _user.user_name,
+    _user.sex,_user.height,_user.weight,_user.phone,_user.weixin_name,_user.company, _user.job,
+    _user.age, _user.birthday, _user.live_city, _user.create_time, _user.remark, _user.qq
+    FROM api_user _user
+    <where>
+      <if test="degree != null and degree != ''">
+        and _user.degree = #{degree}
+      </if>
+      <if test="minHeight != null">
+        and _user.height >= #{minHeight}
+      </if>
+      <if test="maxHeight != null">
+        <![CDATA[ and _user.height <= #{maxHeight} ]]>
+      </if>
+      <if test="userName != null and userName !=''">
+        and _user.user_name like CONCAT('%',#{userName},'%')
+      </if>
+      <if test="userCode != null and userCode !=''">
+        and _user.user_code like CONCAT('%',#{userCode},'%')
+      </if>
+      <if test="phone != null and phone !=''">
+        and _user.phone like CONCAT('%',#{phone},'%')
+      </if>
+      <if test="weixinName != null and weixinName !=''">
+        and _user.weixin_name like CONCAT('%',#{weixinName},'%')
+      </if>
+      <if test="qq != null and qq !=''">
+        and _user.qq like CONCAT('%',#{qq},'%')
+      </if>
+      <if test="email != null and email !=''">
+        and _user.email like CONCAT('%',#{email},'%')
+      </if>
+      <if test="characteristicSignature != null and characteristicSignature !=''">
+        and _user.characteristic_signature like CONCAT('%',#{characteristicSignature},'%')
+      </if>
+      <if test="sex != null and sex !=''">
+        and _user.sex =#{sex}
+      </if>
+      <if test="constellation != null and constellation !=''">
+        and _user.constellation like CONCAT('%',#{constellation},'%')
+      </if>
+      <if test="school != null and school !=''">
+        and _user.school like CONCAT('%',#{school},'%')
+      </if>
+      <if test="company != null and company !=''">
+        and _user.company like CONCAT('%',#{company},'%')
+      </if>
+      <if test="job != null and job !=''">
+        and _user.job like CONCAT('%',#{job},'%')
+      </if>
+      <if test="remark != null and remark !=''">
+        and _user.remark like CONCAT('%',#{remark},'%')
+      </if>
+      <if test="liveCity != null and liveCity !=''">
+        and _user.live_city like CONCAT('%',#{liveCity},'%')
+      </if>
+      <if test="birthDayBeginTime != null"><!-- 精确查找到秒 -->
+        <![CDATA[ and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT(#{birthDayBeginTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')   ]]>
+      </if>
+      <if test="birthDayEndTime != null"><!-- 精确查找到秒，注意：birthDayEndTime 比 birthDayBeginTime 时间更早-->
+        <![CDATA[  and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(#{birthDayEndTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')    ]]>
+      </if>
+      <if test="startDate != null">
+        <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate,jdbcType=TIMESTAMP}, '%Y-%m-%d')   ]]>
+      </if>
+      <if test="deadline != null">
+        <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{deadline,jdbcType=TIMESTAMP}, '%Y-%m-%d')    ]]>
+      </if>
+      <if test="maritalStatus != null and maritalStatus !=''">
+        and _user.marital_status =#{maritalStatus}
+      </if>
+      <if test="cityList != null">
+        AND _user.live_city in
+        <foreach item="item" index="index" collection="cityList"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      and _user.valid_status = 1
+    </where>
+    order by _user.create_time desc
+    limit #{page}, #{pageSize}
+  </select>
 
-    <!--getSearchTotal:多条件查找相应记录，返回记录总数-->
-    <select id="getSearchTotal" resultType="java.lang.Integer" parameterType="com.hellogood.http.vo.UserVO">
-        select count(1) from (
-        select
-        _user.id, _user.user_code, _user.user_name,
-        _user.sex,_user.height,_user.weight,_user.phone,_user.weixin_name,_user.company, _user.job,
-        _user.age, _user.birthday, _user.live_city, _user.create_time, _user.remark
-        FROM api_user _user
-        <where>
-            <if test="degree != null and degree != ''">
-                and _user.degree = #{degree}
-            </if>
-            <if test="minHeight != null">
-                and _user.height >= #{minHeight}
-            </if>
-            <if test="maxHeight != null">
-                <![CDATA[ and _user.height <= #{maxHeight} ]]>
-            </if>
-            <if test="userName != null and userName !=''">
-                and _user.user_name like CONCAT('%',#{userName},'%')
-            </if>
-            <if test="userCode != null and userCode !=''">
-                and _user.user_code like CONCAT('%',#{userCode},'%')
-            </if>
-            <if test="phone != null and phone !=''">
-                and _user.phone like CONCAT('%',#{phone},'%')
-            </if>
-            <if test="weixinName != null and weixinName !=''">
-                and _user.weixin_name like CONCAT('%',#{weixinName},'%')
-            </if>
-            <if test="sex != null and sex !=''">
-                and _user.sex =#{sex}
-            </if>
-            <if test="constellation != null and constellation !=''">
-                and _user.constellation like CONCAT('%',#{constellation},'%')
-            </if>
-            <if test="school != null and school !=''">
-                and _user.school like CONCAT('%',#{school},'%')
-            </if>
-            <if test="company != null and company !=''">
-                and _user.company like CONCAT('%',#{company},'%')
-            </if>
-            <if test="job != null and job !=''">
-                and _user.job like CONCAT('%',#{job},'%')
-            </if>
-            <if test="remark != null and remark !=''">
-                and _user.remark like CONCAT('%',#{remark},'%')
-            </if>
-            <if test="liveCity != null and liveCity !=''">
-                and _user.live_city like CONCAT('%',#{liveCity},'%')
-            </if>
-            <if test="birthDayBeginTime != null"><!-- 精确查找到秒 -->
-                <![CDATA[ and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT(#{birthDayBeginTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')   ]]>
-            </if>
-            <if test="birthDayEndTime != null"><!-- 精确查找到秒，注意：birthDayEndTime 比 birthDayBeginTime 时间更早-->
-                <![CDATA[  and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(#{birthDayEndTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')    ]]>
-            </if>
-            <if test="startDate != null">
-                <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate,jdbcType=TIMESTAMP}, '%Y-%m-%d')   ]]>
-            </if>
-            <if test="deadline != null">
-                <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{deadline,jdbcType=TIMESTAMP}, '%Y-%m-%d')    ]]>
-            </if>
-            <if test="maritalStatus != null and maritalStatus !=''">
-                and _user.marital_status =#{maritalStatus}
-            </if>
-            <if test="cityList != null">
-                AND _user.live_city in
-                <foreach item="item" index="index" collection="cityList"
-                         open="(" separator="," close=")">
-                    #{item}
-                </foreach>
-            </if>
-            and _user.valid_status = 1
-        </where>
-        ) temp
-    </select>
-    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hellogood.domain.UserExample">
-        select
-        <if test="distinct">
-            distinct
-        </if>
-        <include refid="Base_Column_List"/>
-        from api_user
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
-    </select>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from api_user
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        DELETE FROM api_user
-        WHERE id = #{id,jdbcType=INTEGER}
-    </delete>
-    <delete id="deleteByExample" parameterType="com.hellogood.domain.UserExample">
-        delete from api_user
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-    </delete>
-    <insert id="insert" parameterType="com.hellogood.domain.User" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO api_user (id, user_code, user_name,
-                              sex, age, height, weight,
-                              phone, weixin_name, degree,
-                              birthday, constellation, marital_status,
-                              native_place, live_province, live_city,
-                              nationality, school, company,
-                              job, characteristic_signature, create_time,
-                              update_time, valid_status, remark
-        )
-        VALUES (#{id,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
-                                        #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER},
-                                        #{weight,jdbcType=INTEGER},
-                                        #{phone,jdbcType=VARCHAR}, #{weixinName,jdbcType=VARCHAR},
-                                        #{degree,jdbcType=VARCHAR},
-                                        #{birthday,jdbcType=TIMESTAMP}, #{constellation,jdbcType=VARCHAR},
-                                                                        #{maritalStatus,jdbcType=VARCHAR},
-                                                                        #{nativePlace,jdbcType=VARCHAR},
-                                                                        #{liveProvince,jdbcType=VARCHAR},
-                                                                        #{liveCity,jdbcType=VARCHAR},
-                                                                        #{nationality,jdbcType=VARCHAR},
-                                                                        #{school,jdbcType=VARCHAR},
-                                                                        #{company,jdbcType=VARCHAR},
-                                                                        #{job,jdbcType=VARCHAR},
-                                                                        #{characteristicSignature,jdbcType=VARCHAR},
-                #{createTime,jdbcType=TIMESTAMP},
-                #{updateTime,jdbcType=TIMESTAMP}, #{validStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-        )
-    </insert>
-    <insert id="insertSelective" parameterType="com.hellogood.domain.User">
-        insert into api_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="userCode != null">
-                user_code,
-            </if>
-            <if test="userName != null">
-                user_name,
-            </if>
-            <if test="sex != null">
-                sex,
-            </if>
-            <if test="age != null">
-                age,
-            </if>
-            <if test="height != null">
-                height,
-            </if>
-            <if test="weight != null">
-                weight,
-            </if>
-            <if test="phone != null">
-                phone,
-            </if>
-            <if test="weixinName != null">
-                weixin_name,
-            </if>
-            <if test="degree != null">
-                degree,
-            </if>
-            <if test="birthday != null">
-                birthday,
-            </if>
-            <if test="constellation != null">
-                constellation,
-            </if>
-            <if test="maritalStatus != null">
-                marital_status,
-            </if>
-            <if test="nativePlace != null">
-                native_place,
-            </if>
-            <if test="liveProvince != null">
-                live_province,
-            </if>
-            <if test="liveCity != null">
-                live_city,
-            </if>
-            <if test="nationality != null">
-                nationality,
-            </if>
-            <if test="school != null">
-                school,
-            </if>
-            <if test="company != null">
-                company,
-            </if>
-            <if test="job != null">
-                job,
-            </if>
-            <if test="characteristicSignature != null">
-                characteristic_signature,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
-            <if test="validStatus != null">
-                valid_status,
-            </if>
-            <if test="remark != null">
-                remark,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="userCode != null">
-                #{userCode,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="sex != null">
-                #{sex,jdbcType=VARCHAR},
-            </if>
-            <if test="age != null">
-                #{age,jdbcType=INTEGER},
-            </if>
-            <if test="height != null">
-                #{height,jdbcType=INTEGER},
-            </if>
-            <if test="weight != null">
-                #{weight,jdbcType=INTEGER},
-            </if>
-            <if test="phone != null">
-                #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="weixinName != null">
-                #{weixinName,jdbcType=VARCHAR},
-            </if>
-            <if test="degree != null">
-                #{degree,jdbcType=VARCHAR},
-            </if>
-            <if test="birthday != null">
-                #{birthday,jdbcType=TIMESTAMP},
-            </if>
-            <if test="constellation != null">
-                #{constellation,jdbcType=VARCHAR},
-            </if>
-            <if test="maritalStatus != null">
-                #{maritalStatus,jdbcType=VARCHAR},
-            </if>
-            <if test="nativePlace != null">
-                #{nativePlace,jdbcType=VARCHAR},
-            </if>
-            <if test="liveProvince != null">
-                #{liveProvince,jdbcType=VARCHAR},
-            </if>
-            <if test="liveCity != null">
-                #{liveCity,jdbcType=VARCHAR},
-            </if>
-            <if test="nationality != null">
-                #{nationality,jdbcType=VARCHAR},
-            </if>
-            <if test="school != null">
-                #{school,jdbcType=VARCHAR},
-            </if>
-            <if test="company != null">
-                #{company,jdbcType=VARCHAR},
-            </if>
-            <if test="job != null">
-                #{job,jdbcType=VARCHAR},
-            </if>
-            <if test="characteristicSignature != null">
-                #{characteristicSignature,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="validStatus != null">
-                #{validStatus,jdbcType=INTEGER},
-            </if>
-            <if test="remark != null">
-                #{remark,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByExampleSelective" parameterType="map">
-        update api_user
-        <set>
-            <if test="record.id != null">
-                id = #{record.id,jdbcType=INTEGER},
-            </if>
-            <if test="record.userCode != null">
-                user_code = #{record.userCode,jdbcType=VARCHAR},
-            </if>
-            <if test="record.userName != null">
-                user_name = #{record.userName,jdbcType=VARCHAR},
-            </if>
-            <if test="record.sex != null">
-                sex = #{record.sex,jdbcType=VARCHAR},
-            </if>
-            <if test="record.age != null">
-                age = #{record.age,jdbcType=INTEGER},
-            </if>
-            <if test="record.height != null">
-                height = #{record.height,jdbcType=INTEGER},
-            </if>
-            <if test="record.weight != null">
-                weight = #{record.weight,jdbcType=INTEGER},
-            </if>
-            <if test="record.phone != null">
-                phone = #{record.phone,jdbcType=VARCHAR},
-            </if>
-            <if test="record.weixinName != null">
-                weixin_name = #{record.weixinName,jdbcType=VARCHAR},
-            </if>
-            <if test="record.degree != null">
-                degree = #{record.degree,jdbcType=VARCHAR},
-            </if>
-            <if test="record.birthday != null">
-                birthday = #{record.birthday,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.constellation != null">
-                constellation = #{record.constellation,jdbcType=VARCHAR},
-            </if>
-            <if test="record.maritalStatus != null">
-                marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
-            </if>
-            <if test="record.nativePlace != null">
-                native_place = #{record.nativePlace,jdbcType=VARCHAR},
-            </if>
-            <if test="record.liveProvince != null">
-                live_province = #{record.liveProvince,jdbcType=VARCHAR},
-            </if>
-            <if test="record.liveCity != null">
-                live_city = #{record.liveCity,jdbcType=VARCHAR},
-            </if>
-            <if test="record.nationality != null">
-                nationality = #{record.nationality,jdbcType=VARCHAR},
-            </if>
-            <if test="record.school != null">
-                school = #{record.school,jdbcType=VARCHAR},
-            </if>
-            <if test="record.company != null">
-                company = #{record.company,jdbcType=VARCHAR},
-            </if>
-            <if test="record.job != null">
-                job = #{record.job,jdbcType=VARCHAR},
-            </if>
-            <if test="record.characteristicSignature != null">
-                characteristic_signature = #{record.characteristicSignature,jdbcType=VARCHAR},
-            </if>
-            <if test="record.createTime != null">
-                create_time = #{record.createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.updateTime != null">
-                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.validStatus != null">
-                valid_status = #{record.validStatus,jdbcType=INTEGER},
-            </if>
-            <if test="record.remark != null">
-                remark = #{record.remark,jdbcType=VARCHAR},
-            </if>
-        </set>
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByExample" parameterType="map">
-        update api_user
-        set id = #{record.id,jdbcType=INTEGER},
+  <!--getSearchTotal:多条件查找相应记录，返回记录总数-->
+  <select id="getSearchTotal" resultType="java.lang.Integer" parameterType="com.hellogood.http.vo.UserVO">
+    select count(1) from (
+    select
+    _user.id, _user.user_code, _user.user_name,
+    _user.sex,_user.height,_user.weight,_user.phone,_user.weixin_name,_user.company, _user.job,
+    _user.age, _user.birthday, _user.live_city, _user.create_time, _user.remark, _user.qq
+    FROM api_user _user
+    <where>
+      <if test="degree != null and degree != ''">
+        and _user.degree = #{degree}
+      </if>
+      <if test="minHeight != null">
+        and _user.height >= #{minHeight}
+      </if>
+      <if test="maxHeight != null">
+        <![CDATA[ and _user.height <= #{maxHeight} ]]>
+      </if>
+      <if test="userName != null and userName !=''">
+        and _user.user_name like CONCAT('%',#{userName},'%')
+      </if>
+      <if test="userCode != null and userCode !=''">
+        and _user.user_code like CONCAT('%',#{userCode},'%')
+      </if>
+      <if test="phone != null and phone !=''">
+        and _user.phone like CONCAT('%',#{phone},'%')
+      </if>
+      <if test="weixinName != null and weixinName !=''">
+        and _user.weixin_name like CONCAT('%',#{weixinName},'%')
+      </if>
+      <if test="sex != null and sex !=''">
+        and _user.sex =#{sex}
+      </if>
+      <if test="constellation != null and constellation !=''">
+        and _user.constellation like CONCAT('%',#{constellation},'%')
+      </if>
+      <if test="school != null and school !=''">
+        and _user.school like CONCAT('%',#{school},'%')
+      </if>
+      <if test="company != null and company !=''">
+        and _user.company like CONCAT('%',#{company},'%')
+      </if>
+      <if test="job != null and job !=''">
+        and _user.job like CONCAT('%',#{job},'%')
+      </if>
+      <if test="remark != null and remark !=''">
+        and _user.remark like CONCAT('%',#{remark},'%')
+      </if>
+      <if test="liveCity != null and liveCity !=''">
+        and _user.live_city like CONCAT('%',#{liveCity},'%')
+      </if>
+      <if test="birthDayBeginTime != null"><!-- 精确查找到秒 -->
+        <![CDATA[ and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT(#{birthDayBeginTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')   ]]>
+      </if>
+      <if test="birthDayEndTime != null"><!-- 精确查找到秒，注意：birthDayEndTime 比 birthDayBeginTime 时间更早-->
+        <![CDATA[  and DATE_FORMAT(_user.birthday, '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(#{birthDayEndTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s')    ]]>
+      </if>
+      <if test="startDate != null">
+        <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{startDate,jdbcType=TIMESTAMP}, '%Y-%m-%d')   ]]>
+      </if>
+      <if test="deadline != null">
+        <![CDATA[  and DATE_FORMAT(_user.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{deadline,jdbcType=TIMESTAMP}, '%Y-%m-%d')    ]]>
+      </if>
+      <if test="maritalStatus != null and maritalStatus !=''">
+        and _user.marital_status =#{maritalStatus}
+      </if>
+      <if test="cityList != null">
+        AND _user.live_city in
+        <foreach item="item" index="index" collection="cityList"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      and _user.valid_status = 1
+    </where>
+    ) temp
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hellogood.domain.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from api_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from api_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from api_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hellogood.domain.UserExample" >
+    delete from api_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hellogood.domain.User"  useGeneratedKeys="true" keyProperty="id">
+    insert into api_user (id, user_code, user_name, 
+      sex, age, height, weight, 
+      phone, weixin_name, degree, 
+      birthday, constellation, marital_status, 
+      native_place, live_province, live_city, 
+      nationality, school, company, 
+      job, characteristic_signature, create_time, 
+      update_time, valid_status, remark, 
+      qq, email)
+    values (#{id,jdbcType=INTEGER}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{weixinName,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{constellation,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, 
+      #{nativePlace,jdbcType=VARCHAR}, #{liveProvince,jdbcType=VARCHAR}, #{liveCity,jdbcType=VARCHAR}, 
+      #{nationality,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{characteristicSignature,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{validStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellogood.domain.User" >
+    insert into api_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="weixinName != null" >
+        weixin_name,
+      </if>
+      <if test="degree != null" >
+        degree,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="constellation != null" >
+        constellation,
+      </if>
+      <if test="maritalStatus != null" >
+        marital_status,
+      </if>
+      <if test="nativePlace != null" >
+        native_place,
+      </if>
+      <if test="liveProvince != null" >
+        live_province,
+      </if>
+      <if test="liveCity != null" >
+        live_city,
+      </if>
+      <if test="nationality != null" >
+        nationality,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="characteristicSignature != null" >
+        characteristic_signature,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="validStatus != null" >
+        valid_status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinName != null" >
+        #{weixinName,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="constellation != null" >
+        #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="maritalStatus != null" >
+        #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="liveProvince != null" >
+        #{liveProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCity != null" >
+        #{liveCity,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="characteristicSignature != null" >
+        #{characteristicSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStatus != null" >
+        #{validStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update api_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userCode != null" >
         user_code = #{record.userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
         user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
         sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
         age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.height != null" >
         height = #{record.height,jdbcType=INTEGER},
+      </if>
+      <if test="record.weight != null" >
         weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null" >
         phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weixinName != null" >
         weixin_name = #{record.weixinName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degree != null" >
         degree = #{record.degree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
         birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.constellation != null" >
         constellation = #{record.constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maritalStatus != null" >
         marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nativePlace != null" >
         native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveProvince != null" >
         live_province = #{record.liveProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.liveCity != null" >
         live_city = #{record.liveCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nationality != null" >
         nationality = #{record.nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
         school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null" >
         company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.job != null" >
         job = #{record.job,jdbcType=VARCHAR},
+      </if>
+      <if test="record.characteristicSignature != null" >
         characteristic_signature = #{record.characteristicSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.validStatus != null" >
         valid_status = #{record.validStatus,jdbcType=INTEGER},
-        remark = #{record.remark,jdbcType=VARCHAR}
-        <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
-        </if>
-    </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hellogood.domain.User">
-        update api_user
-        <set>
-            <if test="userCode != null">
-                user_code = #{userCode,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                user_name = #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="sex != null">
-                sex = #{sex,jdbcType=VARCHAR},
-            </if>
-            <if test="age != null">
-                age = #{age,jdbcType=INTEGER},
-            </if>
-            <if test="height != null">
-                height = #{height,jdbcType=INTEGER},
-            </if>
-            <if test="weight != null">
-                weight = #{weight,jdbcType=INTEGER},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="weixinName != null">
-                weixin_name = #{weixinName,jdbcType=VARCHAR},
-            </if>
-            <if test="degree != null">
-                degree = #{degree,jdbcType=VARCHAR},
-            </if>
-            <if test="birthday != null">
-                birthday = #{birthday,jdbcType=TIMESTAMP},
-            </if>
-            <if test="constellation != null">
-                constellation = #{constellation,jdbcType=VARCHAR},
-            </if>
-            <if test="maritalStatus != null">
-                marital_status = #{maritalStatus,jdbcType=VARCHAR},
-            </if>
-            <if test="nativePlace != null">
-                native_place = #{nativePlace,jdbcType=VARCHAR},
-            </if>
-            <if test="liveProvince != null">
-                live_province = #{liveProvince,jdbcType=VARCHAR},
-            </if>
-            <if test="liveCity != null">
-                live_city = #{liveCity,jdbcType=VARCHAR},
-            </if>
-            <if test="nationality != null">
-                nationality = #{nationality,jdbcType=VARCHAR},
-            </if>
-            <if test="school != null">
-                school = #{school,jdbcType=VARCHAR},
-            </if>
-            <if test="company != null">
-                company = #{company,jdbcType=VARCHAR},
-            </if>
-            <if test="job != null">
-                job = #{job,jdbcType=VARCHAR},
-            </if>
-            <if test="characteristicSignature != null">
-                characteristic_signature = #{characteristicSignature,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="validStatus != null">
-                valid_status = #{validStatus,jdbcType=INTEGER},
-            </if>
-            <if test="remark != null">
-                remark = #{remark,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.hellogood.domain.User">
-        UPDATE api_user
-        SET user_code                = #{userCode,jdbcType=VARCHAR},
-            user_name                = #{userName,jdbcType=VARCHAR},
-            sex                      = #{sex,jdbcType=VARCHAR},
-            age                      = #{age,jdbcType=INTEGER},
-            height                   = #{height,jdbcType=INTEGER},
-            weight                   = #{weight,jdbcType=INTEGER},
-            phone                    = #{phone,jdbcType=VARCHAR},
-            weixin_name              = #{weixinName,jdbcType=VARCHAR},
-            degree                   = #{degree,jdbcType=VARCHAR},
-            birthday                 = #{birthday,jdbcType=TIMESTAMP},
-            constellation            = #{constellation,jdbcType=VARCHAR},
-            marital_status           = #{maritalStatus,jdbcType=VARCHAR},
-            native_place             = #{nativePlace,jdbcType=VARCHAR},
-            live_province            = #{liveProvince,jdbcType=VARCHAR},
-            live_city                = #{liveCity,jdbcType=VARCHAR},
-            nationality              = #{nationality,jdbcType=VARCHAR},
-            school                   = #{school,jdbcType=VARCHAR},
-            company                  = #{company,jdbcType=VARCHAR},
-            job                      = #{job,jdbcType=VARCHAR},
-            characteristic_signature = #{characteristicSignature,jdbcType=VARCHAR},
-            create_time              = #{createTime,jdbcType=TIMESTAMP},
-            update_time              = #{updateTime,jdbcType=TIMESTAMP},
-            valid_status             = #{validStatus,jdbcType=INTEGER},
-            remark                   = #{remark,jdbcType=VARCHAR}
-        WHERE id = #{id,jdbcType=INTEGER}
-    </update>
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null" >
+        qq = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update api_user
+    set id = #{record.id,jdbcType=INTEGER},
+      user_code = #{record.userCode,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      height = #{record.height,jdbcType=INTEGER},
+      weight = #{record.weight,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      weixin_name = #{record.weixinName,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      constellation = #{record.constellation,jdbcType=VARCHAR},
+      marital_status = #{record.maritalStatus,jdbcType=VARCHAR},
+      native_place = #{record.nativePlace,jdbcType=VARCHAR},
+      live_province = #{record.liveProvince,jdbcType=VARCHAR},
+      live_city = #{record.liveCity,jdbcType=VARCHAR},
+      nationality = #{record.nationality,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR},
+      job = #{record.job,jdbcType=VARCHAR},
+      characteristic_signature = #{record.characteristicSignature,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      valid_status = #{record.validStatus,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellogood.domain.User" >
+    update api_user
+    <set >
+      <if test="userCode != null" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinName != null" >
+        weixin_name = #{weixinName,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="constellation != null" >
+        constellation = #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="maritalStatus != null" >
+        marital_status = #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        native_place = #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="liveProvince != null" >
+        live_province = #{liveProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="liveCity != null" >
+        live_city = #{liveCity,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        nationality = #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="characteristicSignature != null" >
+        characteristic_signature = #{characteristicSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStatus != null" >
+        valid_status = #{validStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellogood.domain.User" >
+    update api_user
+    set user_code = #{userCode,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      height = #{height,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      weixin_name = #{weixinName,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      constellation = #{constellation,jdbcType=VARCHAR},
+      marital_status = #{maritalStatus,jdbcType=VARCHAR},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      live_province = #{liveProvince,jdbcType=VARCHAR},
+      live_city = #{liveCity,jdbcType=VARCHAR},
+      nationality = #{nationality,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      characteristic_signature = #{characteristicSignature,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      valid_status = #{validStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

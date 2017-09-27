@@ -85,6 +85,66 @@ public class UserVO {
 
     private String remark;
 
+    private String qq;
+
+    private String email;
+
+    private UserPhotoVO headPhoto;//头像
+
+    private String headPhotoName;
+
+    private String headPicPath;
+
+    private Integer headPhotoId;
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getHeadPhotoId() {
+        return headPhotoId;
+    }
+
+    public void setHeadPhotoId(Integer headPhotoId) {
+        this.headPhotoId = headPhotoId;
+    }
+
+    public UserPhotoVO getHeadPhoto() {
+        return headPhoto;
+    }
+
+    public void setHeadPhoto(UserPhotoVO headPhoto) {
+        this.headPhoto = headPhoto;
+    }
+
+    public String getHeadPicPath() {
+        return headPicPath;
+    }
+
+    public void setHeadPicPath(String headPicPath) {
+        this.headPicPath = headPicPath;
+    }
+
+    public String getHeadPhotoName() {
+        return headPhotoName;
+    }
+
+    public void setHeadPhotoName(String headPhotoName) {
+        this.headPhotoName = headPhotoName;
+    }
+
     public String getRemark() {
         return remark;
     }

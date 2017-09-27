@@ -107,8 +107,9 @@ public class UserController extends BaseController {
 	public Map<String, Object> get(@PathVariable Integer id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 查询头像路径
-		String fPath = generateFolderPath(id);
 		UserVO vo = userService.get(id);
+		String fPath = generateFolderPath(id);
+		vo.setHeadPicPath(fPath + vo.getHeadPhotoName());
 		map.put(DATA, vo);
 		map.put(STATUS, STATUS_SUCCESS);
 		return map;

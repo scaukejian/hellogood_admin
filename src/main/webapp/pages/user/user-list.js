@@ -4,7 +4,7 @@ window.hellogood.user = function() {
 	var _from = $("#userDataForm");
 	var isSubmit = true;
 	var windowWidth = 650;
-	var windowHeight = 580;
+	var windowHeight = 530;
 	var hasCheckbox = true;
 	var _grid = null;
 	var columns = [
@@ -46,6 +46,10 @@ window.hellogood.user = function() {
 		{
 			name : '微信号',
 			dataIndex : 'weixinName'
+		},
+		{
+			name : 'QQ',
+			dataIndex : 'qq'
 		},
 		{
 			name : '生日',
@@ -203,7 +207,7 @@ window.hellogood.user = function() {
 			btnName : [ "确定", "取消" ],
 			okHandle : function() {
 				if (!Validator.Validate($("#userProfileFrom")[0], 3)) return;
-               // if (!checkCommon(util.serializeJson($('#userProfileFrom')))) return;
+                if (!checkCommon(util.serializeJson($('#userProfileFrom')))) return;
 				var uObj = util.serializeJson($("#userProfileFrom"));
                 var remark = CKEDITOR.instances.userRemarkEditor.getData();
 				var dString = uObj.birthday;
@@ -237,6 +241,11 @@ window.hellogood.user = function() {
 		addUserMsgBox.show();
 		msgBoxDataInit();
         util.editComfig("userRemarkEditor", "user", 0, 80);
+        $('#profilePictureDiv').html(' <input type="file" id="photo_upload" name="file" style="display: none;"/> ' +
+            '<div class="position form-group showPhotos" id="photos_show"> ' +
+            '<div onclick="photoUpload()" style="float: left; width: 55px; height: 55px; border: 1px solid #000; text-align: center; ' +
+            'cursor: pointer; line-height: 55px;margin: 5 15 0 0;"> ' +
+            '<font size="12px">+</font> </div></div>');
 	};
 
     var checkCommon = function (obj) {
@@ -264,7 +273,7 @@ window.hellogood.user = function() {
             btnName : [ "确定", "取消" ],
             okHandle : function() {
                 if (!Validator.Validate($("#userProfileFrom")[0], 3)) return;
-                //if (!checkCommon(util.serializeJson($('#userProfileFrom')))) return;
+                if (!checkCommon(util.serializeJson($('#userProfileFrom')))) return;
                 var uObj = util.serializeJson($("#userProfileFrom"));
                 var dString = uObj.birthday;
                 dString = dString.replace(/-/g, "/");
@@ -332,9 +341,28 @@ window.hellogood.user = function() {
 						$('#userRemarkEditor').val(json.data[index]);
 					}
 				}
+                showHeadPhoto(json.data['headPhoto']);
 			}
 		});
 	};
+
+
+    var showHeadPhoto = function(userPhoto){
+        if(null == userPhoto || null == userPhoto.imgName){
+            $('#profilePictureDiv').html(' <input type="file" id="photo_upload" name="file" style="display: none;"/> ' +
+                '<div class="position form-group showPhotos" id="photos_show"> ' +
+                '<div onclick="photoUpload()" style="float: left; width: 55px; height: 55px; border: 1px solid #000; text-align: center; ' +
+                'cursor: pointer; line-height: 55px;margin: 5 15 0 0;"> ' +
+                '<font size="12px">+</font> </div></div>');
+        } else {
+            $('#profilePictureDiv').append("<div class='image-set' style='float: left;'>" +
+                "<a class='example-image-link' data-lightbox='example-set-photo'  href='../../user/download.do?fileName=" +
+                userPhoto.imgName + "' ><img class='example-image' height='60px' width='60px'  src='../../user/download.do?fileName=" +
+                userPhoto.imgName + "'/>" +
+                "</a><div style='display: inline;margin-left: 5px'><a onclick='deletePhoto("+userPhoto.id+");' style='font-size: 12px;'>删除</a></div></div>");
+            //<div><a onclick='deletePhoto("+userPhoto.id+");' style='font-size: 12px'>删除</a></div>
+        }
+    }
 
 	var bindEvent = function() {
 		// 查询
@@ -387,34 +415,9 @@ window.hellogood.user = function() {
 			async : false,
 			succFun : function(json) {
 				var domMsgs = [ {
-					domId : 'user_degree',
-					jsonObj : 'degree',
-					key : 'name',
-					value : 'name'
-				}, {
 					domId : 'user_maritalStatus',
 					jsonObj : 'marry',
 					key : 'name',
-					value : 'name'
-				}, {
-					domId : 'user_asset',
-					jsonObj : 'asset',
-					key : 'name',
-					value : 'name'
-				}, {
-					domId : 'user_family',
-					jsonObj : 'family',
-					key : 'name',
-					value : 'name'
-				}, {
-					domId : 'user_trystStatus',
-					jsonObj : 'ownness',
-					key : 'name',
-					value : 'name'
-				}, {
-					domId : 'user_customerId',
-					jsonObj : 'empList',
-					key : 'id',
 					value : 'name'
 				}];
 				util.selectPadData(domMsgs, json);
@@ -428,16 +431,6 @@ window.hellogood.user = function() {
 			async: false,
 			succFun: function (json) {
 				var domMsgs = [{
-					domId: 'user_degree_list',
-					jsonObj: 'degree',
-					key: 'name',
-					value: 'name'
-				}, {
-					domId: 'user_customerId_list',
-					jsonObj: 'empList',
-					key: 'id',
-					value: 'name'
-				}, {
 					domId : 'user_maritalStatus_list',
 					jsonObj : 'marry',
 					key : 'name',

@@ -1,5 +1,6 @@
 package com.hellogood.service;
 
+import com.google.gson.reflect.TypeToken;
 import com.hellogood.constant.Code;
 import com.hellogood.constant.EhCacheCode;
 import com.hellogood.domain.*;
@@ -11,6 +12,7 @@ import com.hellogood.service.redis.RedisCacheManger;
 import com.hellogood.utils.*;
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
+import org.apache.commons.codec.binary.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -33,6 +35,7 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Base64;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -57,12 +60,16 @@ public class UserService {
     @Autowired
     private BaseDataMapper baseDataMapper;
 
+    @Autowired
+    private UserPhotoService userPhotoService;
 
     private void checkCommon(UserVO vo){
         if (!RegexUtils.isUsername(vo.getUserCode()))
             throw new BusinessException(RegexUtils.USERNAME_MSG);
         if (StringUtils.isBlank(vo.getUserName()))
             throw new BusinessException("操作失败: 姓名不能为空");
+        if (vo.getUserName().length() > 32)
+            throw new BusinessException("操作失败: 姓名长度不能大于32个字符");
         if (!RegexUtils.isMobileExact(vo.getPhone()))
             throw new BusinessException(RegexUtils.PHONE_MSG);
         if (StringUtils.isBlank(vo.getSex()))
@@ -73,23 +80,41 @@ public class UserService {
             throw new BusinessException("年龄"+RegexUtils.POSITIVE_INTEGER_MSG);
         if (StringUtils.isBlank(vo.getWeixinName()))
             throw new BusinessException("操作失败: 微信不能为空");
+        if (vo.getWeixinName().length() > 50)
+            throw new BusinessException("操作失败: 微信长度不能大于50个字符");
         if (vo.getHeight() != null && !RegexUtils.isPositiveInteger(String.valueOf(vo.getHeight())))
             throw new BusinessException("身高"+RegexUtils.POSITIVE_INTEGER_MSG);
         //常住城市
         if (StringUtils.isNotBlank(vo.getLiveCity())) {
+            if (vo.getLiveCity().length() > 20) throw new BusinessException("操作失败: 常住城市长度不能大于20个字符");
             Area area = areaService.getEqualsCityName(vo.getLiveCity().trim());
-            if (area == null) {
-                throw new BusinessException("没有查找到对应的城市");
-            }
+            if (area == null) throw new BusinessException("没有查找到对应的城市");
             Province province = provinceService.getByCode(area.getParentId());
             vo.setLiveProvince(province != null ? province.getName() : "");
         }
         vo.setRemark(DataUtil.strToconent(vo.getRemark())); //过滤编辑器的特殊格式
+        if (StringUtils.isNotBlank(vo.getRemark()) && vo.getRemark().length() > 255)
+            throw new BusinessException("操作失败: 备注长度不能大于255个字符");
+        if (StringUtils.isNotBlank(vo.getDegree()) && vo.getDegree().length() > 20)
+            throw new BusinessException("操作失败: 学历长度不能大于20个字符");
+        if (StringUtils.isNotBlank(vo.getConstellation()) && vo.getConstellation().length() > 10)
+            throw new BusinessException("操作失败: 星座长度不能大于10个字符");
+        if (StringUtils.isNotBlank(vo.getSchool()) && vo.getSchool().length() > 64)
+            throw new BusinessException("操作失败: 学校长度不能大于64个字符");
+        if (StringUtils.isNotBlank(vo.getCompany()) && vo.getCompany().length() > 200)
+            throw new BusinessException("操作失败: 公司长度不能大于200个字符");
+        if (StringUtils.isNotBlank(vo.getJob()) && vo.getJob().length() > 32)
+            throw new BusinessException("操作失败: 职位长度不能大于32个字符");
+        if (StringUtils.isNotBlank(vo.getCharacteristicSignature()) && vo.getCharacteristicSignature().length() > 255)
+            throw new BusinessException("操作失败: 个性签名长度不能大于255个字符");
+        if (StringUtils.isNotBlank(vo.getQq()) && vo.getQq().length() > 20)
+            throw new BusinessException("操作失败: QQ长度不能大于20个字符");
+        if (StringUtils.isNotBlank(vo.getEmail()) && vo.getEmail().length() > 50)
+            throw new BusinessException("操作失败: Email长度不能大于50个字符");
     }
 
     /**
      * 新增
-     *
      * @param vo
      */
     public int add(UserVO vo) {
@@ -104,6 +129,13 @@ public class UserService {
         domain.setUpdateTime(new Date());
         domain.setValidStatus(Code.STATUS_VALID);
         userMapper.insert(domain);
+        if (vo.getHeadPhotoId() != null && vo.getHeadPhotoId() > 0) {
+            UserPhoto userPhoto = userPhotoService.getUserPhoto(vo.getHeadPhotoId());
+            if (userPhoto != null) {
+                userPhoto.setUserId(domain.getId());
+                userPhotoService.update(userPhoto);
+            }
+        }
         return domain.getId();
     }
 
@@ -226,9 +258,17 @@ public class UserService {
         }
         User domain = userMapper.selectByPrimaryKey(id);
         vo.domain2Vo(domain);
+        userDetailSupplement(vo);
         return vo;
     }
-
+    /**
+     * 用户详情补全
+     * @param vo
+     */
+    void userDetailSupplement(UserVO vo){
+        vo.setHeadPhoto(userPhotoService.getHeadPhotoByUserId(vo.getId()));//头像
+        vo.setHeadPhotoName(userPhotoService.getCacheAvatar(vo.getId()));//获取缓存中的头像名称
+    }
     /**
      * 获取用户简要
      *

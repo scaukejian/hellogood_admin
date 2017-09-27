@@ -53,6 +53,10 @@ public class User {
 
     private String remark;
 
+    private String qq;
+
+    private String email;
+
     public Integer getId() {
         return id;
     }
@@ -251,5 +255,21 @@ public class User {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq == null ? null : qq.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 }

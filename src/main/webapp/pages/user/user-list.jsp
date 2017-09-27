@@ -38,17 +38,17 @@
                 <table class="table">
                     <tr>
                         <th width="7%">账号：</th>
-                        <td width="17%"><input type="text" name="userCode"
-                                               class="form-control"></td>
+                        <td width="17%"><input type="text" name="userCode" class="form-control"></td>
                         <th width="3%">姓名：</th>
-                        <td width="13%"><input type="text" name="userName"
-                                               class="form-control"></td>
+                        <td width="13%"><input type="text" name="userName" class="form-control"></td>
                         <th width="5%">性别：</th>
-                        <td width="15%"><select class="form-control" name="sex">
-                            <option value="">请选择</option>
-                            <option value="男">男</option>
-                            <option value="女">女</option>
-                        </select></td>
+                        <td width="15%">
+                            <select class="form-control" name="sex">
+                                <option value="">请选择</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </td>
                         <th>年龄：</th>
                         <td>
                             <div class="position form-group">
@@ -59,7 +59,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>身高:</th>
+                        <th>身高：</th>
                         <td>
                             <div class="position form-group">
                                 <input class="form-control" style="width:45%;float:left;" name="minHeight"/>
@@ -68,34 +68,37 @@
                             </div>
                         </td>
                         <th width="5%">手机号：</th>
-                        <td width="15%"><input type="text" name="phone"
-                                               class="form-control"></td>
+                        <td width="15%"><input type="text" name="phone" class="form-control"></td>
                         <th width="5%">微信号：</th>
-                        <td width="15%"><input type="text" name="weixinName"
-                                               class="form-control"></td>
-                        <th>常住城市：</th>
-                        <td><input type="text" name="liveCity"
-                                   class="form-control"></td>
+                        <td width="15%"><input type="text" name="weixinName" class="form-control"></td>
+                        <th width="5%">QQ：</th>
+                        <td width="15%"><input type="text" name="qq" class="form-control"></td>
                     </tr>
                     <tr>
+                        <th width="5%">Email：</th>
+                        <td width="15%"><input type="text" name="email" class="form-control"></td>
                         <th width="5%">学历：</th>
                         <td width="15%"><input type="text" name="degree" class="form-control"></td>
                         <th width="5%">星座：</th>
                         <td width="15%"><input type="text" name="constellation" class="form-control"></td>
-                        <th>婚姻状况:</th>
+                        <th>婚姻状况：</th>
                         <td>
                             <select class="form-control" name="maritalStatus" id="user_maritalStatus_list">
                                 <option value="">请选择</option>
                             </select>
                         </td>
-                        <th width="5%">学校：</th>
-                        <td width="15%"><input type="text" name="school" class="form-control"></td>
                     </tr>
                     <tr>
+                        <th width="5%">学校：</th>
+                        <td width="15%"><input type="text" name="school" class="form-control"></td>
                         <th width="5%">公司：</th>
                         <td width="15%"><input type="text" name="company" class="form-control"></td>
                         <th width="5%">职位：</th>
                         <td width="15%"><input type="text" name="job" class="form-control"></td>
+                        <th>个性签名：</th>
+                        <td><input type="text" name="characteristicSignature" class="form-control"></td>
+                    </tr>
+                    <tr>
                         <th>注册时间：</th>
                         <td>
                             <div class="position form-group">
@@ -114,8 +117,6 @@
                                 <i class="icon-calendar-a"></i>
                             </div>
                         </td>
-                    </tr>
-                    <tr>
                         <th width="5%">备注：</th>
                         <td width="15%"><input type="text" name="remark" class="form-control"></td>
                         <th width="5%"></th>
