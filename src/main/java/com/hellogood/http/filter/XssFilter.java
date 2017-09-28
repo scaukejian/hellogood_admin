@@ -35,13 +35,7 @@ public class XssFilter implements Filter{
         String url = req.getServletPath();
         logger.info("xss filter URL：" + url);
         //排除XSS过滤  富文本
-        if(StringUtils.contains(url, "activity/update")
-                || StringUtils.contains(url, "speciallyVisit/update")
-                || StringUtils.contains(url, "wonderfulReview/update")
-                || StringUtils.contains(url, "contentEdit/update")
-                || StringUtils.contains(url, "shareInfo/add")
-                || StringUtils.contains(url, "pushRecords/add")
-                || StringUtils.contains(url, "contentCollection/update")){
+        if(StringUtils.contains(url, "contentEdit/update")){
             chain.doFilter(req, resp);
         }else {
             chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request), response);

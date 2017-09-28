@@ -81,7 +81,7 @@ public class UserPhotoVO {
             BeaUtils.copyProperties(domain, this);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BusinessException("获取用户信息失败");
+            throw new BusinessException("获取用户图片信息失败");
         }
     }
 
@@ -90,7 +90,7 @@ public class UserPhotoVO {
             BeaUtils.copyProperties(this, domain);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BusinessException("获取用户信息失败");
+            throw new BusinessException("获取用户图片信息失败");
         }
     }
 }
