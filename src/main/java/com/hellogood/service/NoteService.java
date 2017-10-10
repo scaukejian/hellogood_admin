@@ -69,7 +69,7 @@ public class NoteService {
      * @param ids
      */
     public void setStatus(String ids, Integer status) {
-        if (StringUtils.isBlank(ids)) throw new BusinessException("请选择要删除的记录");
+        if (StringUtils.isBlank(ids)) throw new BusinessException("请选择要操作的记录");
         if (status == null) throw new BusinessException("参数有误");
         String[] idStrArr = ids.split(",");
         for (String idStr : idStrArr) {
@@ -146,7 +146,7 @@ public class NoteService {
         NoteExample example = new NoteExample();
         NoteExample.Criteria criteria = example.createCriteria();
         if(StringUtils.isNotBlank(queryVo.getUserName()) || StringUtils.isNotBlank(queryVo.getPhone()))
-            criteria.andUserIdIn(getUserIdsByUserName(queryVo));
+            criteria.andUserIdIn(getUserIds(queryVo));
         if (StringUtils.isNotBlank(queryVo.getPhoneUniqueCode()))
             criteria.andPhoneUniqueCodeLike(MessageFormat.format("%{0}%", queryVo.getPhoneUniqueCode()));
         if (StringUtils.isNotBlank(queryVo.getContent()))
@@ -170,7 +170,7 @@ public class NoteService {
         }
 
         criteria.andDisplayEqualTo(Code.STATUS_VALID);
-        example.setOrderByClause(" create_time desc, top");
+        example.setOrderByClause(" top desc, update_time desc");
         PageHelper.startPage(page, pageSize);
         List<Note> list = noteMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(list);
@@ -208,7 +208,7 @@ public class NoteService {
      * @param queryVo
      * @return
      */
-    public List<Integer> getUserIdsByUserName(NoteVO queryVo) {
+    public List<Integer> getUserIds(NoteVO queryVo) {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(queryVo.getUserName()))
