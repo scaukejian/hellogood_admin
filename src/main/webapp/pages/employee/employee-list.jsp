@@ -31,7 +31,7 @@
                         <td width="15%">
                             <input type="text" name="name" class="form-control" >
                         </td >
-                        <th width="5%">易约号：</th>
+                        <th width="5%">账号：</th>
                         <td width="15%">
                             <input type="text" name="userCode" class="form-control" >
                         </td >

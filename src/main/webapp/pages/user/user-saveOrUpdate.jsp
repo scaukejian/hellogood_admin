@@ -30,14 +30,14 @@
                 </td>
             </tr>
             <tr>
-                <th>账号：<span class="required">*</span></th>
-                <td>
+                <th width="15%">账号：<span class="required">*</span></th>
+                <td width="35%">
                     <input class="form-control" name="userCode" id="user_userCode" dataType="Require" />
                     <input type="hidden" id="user_id" name="id">
                     <input type="hidden" name="headPhotoId" id="headPhotoId"/>
                 </td>
-                <th>姓名：<span class="required">*</span></th>
-                <td>
+                <th width="15%">姓名：<span class="required">*</span></th>
+                <td width="35%">
                     <input class="form-control" name="userName" id="user_userName" dataType="Require"/>
                 </td>
             </tr>

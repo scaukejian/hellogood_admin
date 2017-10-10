@@ -62,7 +62,7 @@ CREATE TABLE `admin_employee` (
   `nation` varchar(100) DEFAULT NULL COMMENT '民族',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `user_code` varchar(100) DEFAULT NULL COMMENT '易约号',
+  `user_code` varchar(100) DEFAULT NULL COMMENT '账号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='后台员工表';
 

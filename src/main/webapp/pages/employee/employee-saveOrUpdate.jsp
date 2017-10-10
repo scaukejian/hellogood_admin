@@ -76,17 +76,6 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <th style="width:120px">易约号：</th>
-                <td>
-                    <div class="position form-group">
-                        <input class="form-control" name="userCode" id="employee_userCode" autocomplete="off" onkeyup="showUserCode()">
-                        <div style="width:100%;display:none;z-index:9999;position: absolute;
-                    		background-color: white;filter:alpha(opacity=100);" id="showInfo">
-                        </div>
-                    </div>
-                </td>
-            </tr>
               <tr>
                 <th style="width:120px">密码：<span class="required">*</span></th>
                 <td>
@@ -110,14 +99,6 @@
                     <div class="position form-group">
                         <input class="form-control" name="email" id="employee_email" dataType="Email"/>
 
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th style="width:120px">负责城市：</th>
-                <td>
-                    <div class="position form-group">
-                        <input class="form-control" name="city" id="employee_city" value="" data-value="" onclick="appendCity(this,'duoxuan')"/>
                     </div>
                 </td>
             </tr>

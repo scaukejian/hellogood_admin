@@ -420,7 +420,7 @@ public class BaseController {
 
     /**
      * 环信推送
-     * @param targetCodes 用户易约号
+     * @param targetCodes 用户账号
      * @param content 内容
      * @param needEncode 需要编码
      * @param request
@@ -436,7 +436,7 @@ public class BaseController {
 
     /**
      * 环信推送
-     * @param targetCodes 用户易约号
+     * @param targetCodes 用户账号
      * @param content 内容
      * @param request
      * @return

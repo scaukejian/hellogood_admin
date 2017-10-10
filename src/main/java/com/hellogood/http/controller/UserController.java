@@ -1,16 +1,10 @@
 package com.hellogood.http.controller;
 
-import com.hellogood.constant.Code;
-import com.hellogood.domain.*;
 import com.hellogood.exception.BusinessException;
 import com.hellogood.http.vo.*;
 import com.hellogood.service.*;
-import com.hellogood.utils.DateUtil;
-import com.github.pagehelper.PageInfo;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -44,17 +35,30 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	EmployeeService employeeService;
-
-	@Autowired
-	AreaService areaService;
-
 	Logger logger = LoggerFactory.getLogger(UserController.class);
+
+
+	/**
+	 * 查找用户列表
+	 * @param userVO
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/pageJson.do")
+	public Map<String, Object> pageJson(UserVO userVO, @RequestParam int page,
+										@RequestParam int pageSize) {
+		Map<String, Object> map = new HashMap<>();
+		List<UserVO> userVOList = userService.pageJson(userVO, page, pageSize);
+		map.put(DATA_LIST, userVOList);
+		map.put(TOTAL, userService.getSearchTotal(userVO));
+		map.put(STATUS, STATUS_SUCCESS);
+		return map;
+	}
 
 	/**
 	 * 新增用户
-	 * 
 	 * @param userVO
 	 * @return
 	 */
@@ -83,7 +87,6 @@ public class UserController extends BaseController {
 
 	/***
 	 * 修改用户信息
-	 * 
 	 * @param userVO
 	 * @return
 	 */
@@ -98,7 +101,6 @@ public class UserController extends BaseController {
 
 	/**
 	 * 获取用户详细信息
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -117,7 +119,6 @@ public class UserController extends BaseController {
 
 	/**
 	 * 获取用户简要信息
-	 *
 	 * @param id
 	 * @return
 	 */
@@ -134,28 +135,7 @@ public class UserController extends BaseController {
 	}
 
 	/**
-	 * 查找用户列表
-	 * 
-	 * @param userVO
-	 * @param page
-	 * @param pageSize
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping("/pageJson.do")
-	public Map<String, Object> pageJson(UserVO userVO, @RequestParam int page,
-			@RequestParam int pageSize) {
-		Map<String, Object> map = new HashMap<>();
-		List<UserVO> userVOList = userService.pageJson(userVO, page, pageSize);
-		map.put(DATA_LIST, userVOList);
-		map.put(TOTAL, userService.getSearchTotal(userVO));
-		map.put(STATUS, STATUS_SUCCESS);
-		return map;
-	}
-
-	/**
 	 * 用户数据下载
-	 * 
 	 * @param fileName
 	 * @param request
 	 * @return
@@ -204,13 +184,25 @@ public class UserController extends BaseController {
 	}
 
 	/**
-	 * 获取易约号
+	 * 通过账号获取用户
 	 */
 	@ResponseBody
-	@RequestMapping("/getUser/{userCode}.do")
-	public Map<String, Object> getUser(@PathVariable String userCode) {
+	@RequestMapping("/getUserByUserCode/{userCode}.do")
+	public Map<String, Object> getUserByUserCode(@PathVariable String userCode) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<UserVO> vos = userService.getUserByUserCode(userCode);
+		map.put(DATA_LIST, vos);
+		return map;
+	}
+
+	/**
+	 * 通过用户名获取用户
+	 */
+	@ResponseBody
+	@RequestMapping("/getUserByUserName/{userName}.do")
+	public Map<String, Object> getUserByUserName(@PathVariable String userName) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<UserVO> vos = userService.getUserByUserName(userName);
 		map.put(DATA_LIST, vos);
 		return map;
 	}

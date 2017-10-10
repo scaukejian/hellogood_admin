@@ -229,7 +229,7 @@ window.hellogood.user = function() {
                             addUserMsgBox.close();
                             setTimeout(function () {
                                 loadData(pageData.page, pageData.pageSize);
-                            }, 1500);
+                            }, 1000);
 						}
 					},
 					complete : function() {
@@ -383,11 +383,11 @@ window.hellogood.user = function() {
     var delUser = function() {
         var ids = _grid.getselecValues();
         if (ids == null || ids.length == 0) {
-            $.Prompt("请选择需要删除的行! ");
+            $.Prompt("请选择需要删除的记录! ");
             return;
         }
         ui.dialogBox({
-            html : "确定删除选中的行？",
+            html : "确定删除选中的记录？",
             okHandle : function() {
                 util.hellogoodAjax({
                     url : "user/delete/" + ids + ".do",

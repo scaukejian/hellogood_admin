@@ -25,17 +25,9 @@ window.hellogood.employee = function() {
 			width : '10%',
 			dataIndex : 'account'
 		}, {
-			name : '易约号',
-			width : '10%',
-			dataIndex : 'userCode'
-		}, {
 			name : '联系手机',
 			width : '10%',
 			dataIndex : 'mobilePhone'
-		}, {
-			name : '负责城市',
-			width : '10%',
-			dataIndex : 'city'
 		}, {
 			name : '权限',
 			width : '25%',

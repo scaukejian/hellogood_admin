@@ -1,6 +1,5 @@
 package com.hellogood.service;
 
-import com.google.gson.reflect.TypeToken;
 import com.hellogood.constant.Code;
 import com.hellogood.constant.EhCacheCode;
 import com.hellogood.domain.*;
@@ -8,11 +7,8 @@ import com.hellogood.exception.BusinessException;
 import com.hellogood.http.vo.*;
 import com.hellogood.mapper.BaseDataMapper;
 import com.hellogood.mapper.UserMapper;
-import com.hellogood.service.redis.RedisCacheManger;
 import com.hellogood.utils.*;
 import com.github.pagehelper.PageHelper;
-import com.google.gson.Gson;
-import org.apache.commons.codec.binary.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -35,8 +31,6 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Base64;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -600,15 +594,36 @@ public class UserService {
         return userMapper.getSearchTotal(userVO);
     }
 
-
+    /**
+     * 通过账号获取用户
+     */
     public List<UserVO> getUserByUserCode(String userCode) {
-        PageHelper.startPage(1, 7);
+        PageHelper.startPage(1, 10);
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         List<UserVO> vos = new ArrayList<UserVO>();
         if (StringUtils.isNotBlank(userCode)) {
             criteria.andUserCodeLike(MessageFormat.format("%{0}%", userCode));
         }
+        List<User> users = userMapper.selectByExample(example);
+        for (User user : users) {
+            UserVO vo = new UserVO();
+            vo.domain2Vo(user);
+            vos.add(vo);
+        }
+        return vos;
+    }
+
+    /**
+     * 通过用户名获取用户
+     */
+    public List<UserVO> getUserByUserName(String userName) {
+        if (StringUtils.isBlank(userName)) return new ArrayList<>();
+        PageHelper.startPage(1, 100);
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        List<UserVO> vos = new ArrayList<UserVO>();
+        criteria.andUserNameLike(MessageFormat.format("%{0}%", userName));
         List<User> users = userMapper.selectByExample(example);
         for (User user : users) {
             UserVO vo = new UserVO();

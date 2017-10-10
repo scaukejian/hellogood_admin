@@ -114,7 +114,7 @@ public class EmployeeController extends BaseController {
 		String userCodeTemp = temp.getUserCode();
 		/*if (userCode == null || !userCode.equals(userCodeTemp)) {
 			*//**
-			 * 变更易约号的时候通知该预约号客服所管辖的客户
+			 * 变更账号的时候通知该预约号客服所管辖的客户
 			 *//*
 			List<Integer> userIdList = customerFollowUpService.getValidUserIdsByCustomerId(vo.getId().intValue());
 			if (!userIdList.isEmpty()) {
@@ -212,7 +212,7 @@ public class EmployeeController extends BaseController {
 		EmployeeVO vo = employeeService.get(Long.parseLong(empId));
 		if (vo != null) {
 			vo.setStatus(status);
-			/*if (status == 0) { //禁用员工时，清除员工的易约号
+			/*if (status == 0) { //禁用员工时，清除员工的账号
 				String userCode = vo.getUserCode();
 				if (userCode != null) {
 					List<Integer> userIdList = customerFollowUpService.getValidUserIdsByCustomerId(vo.getId().intValue());

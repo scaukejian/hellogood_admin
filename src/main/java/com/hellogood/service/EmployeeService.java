@@ -169,7 +169,7 @@ public class EmployeeService {
 	
 	/**
 	 * 更新员工信息2
-	 * 检查易约号合法性
+	 * 检查账号合法性
 	 * @param vo
 	 */
 	@Caching(
