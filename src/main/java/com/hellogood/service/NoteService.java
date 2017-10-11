@@ -7,7 +7,6 @@ import com.hellogood.constant.EhCacheCode;
 import com.hellogood.domain.*;
 import com.hellogood.exception.BusinessException;
 import com.hellogood.http.vo.NoteVO;
-import com.hellogood.mapper.BaseDataMapper;
 import com.hellogood.mapper.NoteMapper;
 import com.hellogood.mapper.UserMapper;
 import com.hellogood.utils.DataUtil;

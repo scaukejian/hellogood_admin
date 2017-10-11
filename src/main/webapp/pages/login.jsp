@@ -46,20 +46,15 @@ img {
 
 header {
 	height: 190px;
-}
-
-header img {
-	margin-left: 60px;
-	float: left;
+	text-align: center;
 }
 
 header a {
 	color: #2b2b2b;
-	font-size: 70px;
+	font-size: 60px;
 	font-family: '微软雅黑';
 	font-weight: bold;
-	margin-left: 280px;
-	float: left;
+
 	line-height: 190px;
 	letter-spacing: 10px;
 }
@@ -196,9 +191,7 @@ input {
 </head>
 
 <body style="background-color: #ededed;">
-	<header>
-		<img src="../images/login/logo.png"><a>易约管理后台</a>
-	</header>
+	<header><a>Hello Good后台</a></header>
 	<div class="sign_in_box">
 		<div class="text_box">
 			<img src="../images/login/text.png">

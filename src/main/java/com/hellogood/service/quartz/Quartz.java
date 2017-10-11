@@ -4,96 +4,47 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.hellogood.service.*;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.hellogood.http.vo.SmsNoticeTask;
 import com.hellogood.utils.HttpsUtils;
 import com.hellogood.utils.StaticFileUtil;
 
 @Component
 public class Quartz {
+
 	private final static Logger log = Logger.getLogger(Quartz.class);
-
-	@Autowired
-	private BaseDataService baseDataService;
-
-	@Autowired
-	MessageService messageService;
-
-	//随感待处理任务
-	public static final String PENDING_MOMENT_TASK = "pendingMomentTask";
-
-	//key : pendingMomentTask
-	private Map<String, SmsNoticeTask> smsNoticeTaskMap = new HashMap<>();
-
-
-	@Scheduled(cron = "0 0 5 * * ?")
-	public void virtualPrivateLetter() {
-		long tempTime = System.currentTimeMillis();
-		log.info("执行定时器: 虚拟私信生成...");
-		//virtualPrivateLetterService.start();
-		log.info("执行定时器: 虚拟私信生成完毕, 耗时..." +  (System.currentTimeMillis() - tempTime));
-	}
-	
-	@Scheduled(cron = "0 0 6 * * ?")
-	public void virtualSubscribe() {
-		long tempTime = System.currentTimeMillis();
-		log.info("执行定时器: 虚拟关注生成...");
-		//virtualSubscribeService.start();
-		log.info("执行定时器: 虚拟关注生成完毕, 耗时..." +  (System.currentTimeMillis() - tempTime));
-	}
 
 	/**
 	 * 3分钟后开始, 每10分钟执行一次
+	 * @Scheduled(cron = "0 3/10 * * * ?")
      */
-	//@Scheduled(cron = "0 3/10 * * * ?")
-	@Scheduled(cron = "0 3/10 * * * ?")
-	public void execSystemRedPacketScheduleTask(){
-		log.info("执行定时器: 定时送红包...");
-		//systemRedPacketRecordService.execScheduleTask();
-		//speciallyVisitService.increaseScanAndPrase(); //每10分钟刷专访记录票数一次
-		//wonderfulReviewService.increaseScanAndPrase(); //每10分钟刷回顾记录票数一次
-		//activityService.increaseScanAndPrase(); //每10分钟刷活动记录票数一次
-		log.info("执行定时器: 定时送红包...");
-	}
+
 
 	/**
 	 * 3分钟后开始, 每5分钟执行一次
+	 * @Scheduled(cron = "0 3/5 * * * ?")
 	 */
-	@Scheduled(cron = "0 3/5 * * * ?")
-	public void execScheduleTask(){
-		log.info("执行定时器: 定时推送...");
-		//pushRecordsService.execTimedTask();
-		log.info("执行定时器: 定时推送...");
-	}
 
 
 	/**
 	 * 每天00:05分执行
 	 * 定时处理过期数据
+	 * @Scheduled(cron = "0 5 0 * * ?")
      */
-	@Scheduled(cron = "0 5 0 * * ?")
-	public void updateTicketOverdueStatus() {
-		long tempTime = System.currentTimeMillis();
-		log.info("执行定时器: 更新过期券...");
-		//ticketService.updateOverdueStatus();
-		log.info("执行定时器: 更新过期券, 耗时..." +  (System.currentTimeMillis() - tempTime));
-	}
 
 	/**
 	 * 3分钟后开始, 每20分钟执行一次
+	 * @Scheduled(cron = "0 3/20 * * * ?")
 	 */
-	@Scheduled(cron = "0 3/20 * * * ?")
-	public void execMomentNoticeRemindTask(){
-		log.info("执行定时器: 定时发送随感通知...");
-		//sendMomentNoticeRemind();
-		log.info("执行定时器: 定时发送随感通知...");
-	}
+
+	/**
+	 * 每天4:30更新活跃度
+	 * @Scheduled(cron = "0 30 4 * * ?")
+	 */
+
 	/**
 	 * 发送随感短信通知
 	 */
@@ -193,17 +144,6 @@ public class Quartz {
 				tokenRequestMap));
 		String token = String.valueOf(jsonObject.get("token"));
 		return token;
-	}
-
-	/**
-	 * 每天4:30更新活跃度
-     */
-	@Scheduled(cron = "0 30 4 * * ?")
-	public void timingUpdateActive() {
-		long tempTime = System.currentTimeMillis();
-		log.info("执行定时器: 统计活跃度...");
-		//userSystemScoreService.timingUpdateActive();
-		log.info("执行定时器: 统计活跃度完毕, 耗时..." +  (System.currentTimeMillis() - tempTime));
 	}
 
 	public static void main(String[] args) throws ParseException {

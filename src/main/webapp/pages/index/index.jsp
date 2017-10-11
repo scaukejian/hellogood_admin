@@ -91,7 +91,9 @@
         }
 
         header img {
-            width: 288px;
+            margin-top: -25px;
+            width: 180px;
+            margin-left: 10px;
         }
 
         .top_right {
@@ -195,7 +197,6 @@
 <body>
 <header>
     <img src="../../images/index/logo2.png"/>
-
     <div class="top_right">
         <span>当前用户：${employee.name }</span>
         <a href="javaScript:modifyPassword();">修改密码</a>

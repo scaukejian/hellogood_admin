@@ -1,5 +1,6 @@
 package com.hellogood.http.controller;
 
+import com.hellogood.http.shiro.RefreshAuthDefinitionsService;
 import com.hellogood.http.vo.RoleVO;
 import com.hellogood.service.EmpRoleRelationService;
 import com.hellogood.service.RoleAndActionService;
@@ -31,6 +32,9 @@ public class RoleController extends BaseController {
 
 	@Autowired
 	private RoleAndActionService roleAndActionService;
+
+	@Autowired
+	private RefreshAuthDefinitionsService refreshAuthDefinitionsService;
 
 	@ResponseBody
 	@RequestMapping("/add.do")
@@ -153,6 +157,8 @@ public class RoleController extends BaseController {
 		} else {// 没有选择菜单：删除角色下所有菜单
 			roleAndActionService.deleteByRoleId(Long.parseLong(roleId));
 		}
+
+		refreshAuthDefinitionsService.reloadFilterChains(); //刷新权限
 		map.put(STATUS, STATUS_SUCCESS);
 		return map;
 	}
