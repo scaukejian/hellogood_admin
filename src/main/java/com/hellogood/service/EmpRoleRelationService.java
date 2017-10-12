@@ -158,7 +158,7 @@ public class EmpRoleRelationService {
 		List<String> list = getRoleCodeListByEmpId(empId);
 		StringBuffer codes = new StringBuffer();
 		for (String code: list){
-			codes.append(code).append(",");
+			codes.append(code).append("#");//这里不能出现逗号，否则JDK8后会解析出错
 		}
 		return codes.length() > 0 ? codes.substring(0, codes.length() - 1).toString() : codes.toString();
 	}
