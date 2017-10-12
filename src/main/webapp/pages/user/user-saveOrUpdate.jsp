@@ -144,6 +144,5 @@
         </table>
     </form>
 </div>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/ckeditor/ckeditor.js?${ts}"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/common/base64.js"></script>

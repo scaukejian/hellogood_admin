@@ -240,7 +240,7 @@ window.hellogood.user = function() {
 		});
 		addUserMsgBox.show();
 		msgBoxDataInit();
-        util.editComfig("userRemarkEditor", "user", 0, 80);
+        CKEDITOR.replace("userRemarkEditor");
         $('#profilePictureDiv').html(' <input type="file" id="photo_upload" name="file" style="display: none;"/> ' +
             '<div class="position form-group showPhotos" id="photos_show"> ' +
             '<div onclick="photoUpload()" style="float: left; width: 55px; height: 55px; border: 1px solid #000; text-align: center; ' +
@@ -324,7 +324,7 @@ window.hellogood.user = function() {
 					return;
 				}
 				// HTML编辑器设置data数据
-				util.editComfig("userRemarkEditor", "user", 0, 80);
+                CKEDITOR.replace("userRemarkEditor");
 				if (util.isNotBlank(json.data.remark)) {
 					CKEDITOR.instances.userRemarkEditor
 						.setData(json.data.remark)

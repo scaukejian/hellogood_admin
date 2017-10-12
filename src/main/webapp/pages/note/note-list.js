@@ -220,7 +220,7 @@ window.hellogood.note = function() {
 			}
 		});
 		addNoteMsgBox.show();
-        util.editComfig("content", "user", 0, 80);
+        CKEDITOR.replace("content");
 	};
 
 	var showUpdateNoteBox = function(id){
@@ -247,7 +247,9 @@ window.hellogood.note = function() {
                         if (json.status == 'success') {
                             $.Prompt("修改成功！");
                             updateNoteMsgBox.close();
-                            loadData(pageData.page, pageData.pageSize);// 重新加载
+                            setTimeout(function () {
+                                loadData(pageData.page, pageData.pageSize);
+                            }, 1000);
                         }
                     }
                 });
@@ -274,7 +276,7 @@ window.hellogood.note = function() {
 					return;
 				}
 				// HTML编辑器设置data数据
-				util.editComfig("content", "user", 0, 80);
+                CKEDITOR.replace("content");
 				if (util.isNotBlank(json.data.content)) {
 					CKEDITOR.instances.content.setData(json.data.content)
 				}

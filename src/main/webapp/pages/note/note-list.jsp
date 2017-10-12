@@ -6,10 +6,6 @@
         String currPage = request.getParameter("currPage");
     %>
     <%@ include file="../common/header.jsp" %>
-    <link rel="shortcut icon" href="../../js/lightbox/img/demopage/favicon.png">
-    <link rel="stylesheet" href="../../js/lightbox/css/lightbox.css">
-    <link href="../../css/bootstrap/bootstrap.min.css">
-    <link rel="shortcut icon" href="../../">
 </head>
 <body>
 <%@ include file="../common/location.jsp" %>
@@ -98,9 +94,9 @@
     <div id="note_List_grid"></div>
     <div class="text-right" id="note_list_pagetool"></div>
 </div>
-<script type="text/javascript" src="../../js/lightbox/js/lightbox.js"></script>
 <script src="../user/user-list.js?${ts}"></script>
 <script src="note-list.js?${ts}"></script>
+<script src="https://cdn.bootcss.com/ckeditor/4.7.3/ckeditor.js"></script>
 <script type="text/javascript">
     var currPage = <%=currPage%>;
     window.onload = function () {
