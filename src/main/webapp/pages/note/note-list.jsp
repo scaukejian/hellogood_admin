@@ -6,27 +6,10 @@
         String currPage = request.getParameter("currPage");
     %>
     <%@ include file="../common/header.jsp" %>
-    <script type="text/javascript" src="../../js/lightbox/js/lightbox.js"></script>
     <link rel="shortcut icon" href="../../js/lightbox/img/demopage/favicon.png">
     <link rel="stylesheet" href="../../js/lightbox/css/lightbox.css">
     <link href="../../css/bootstrap/bootstrap.min.css">
-    <script src="../../js/common/ajaxfileupload.js" type="text/javascript"></script>
-    <script src="../user/user-list.js?${ts}"></script>
-    <script src="note-list.js?${ts}"></script>
     <link rel="shortcut icon" href="../../">
-    <script type="text/javascript">
-        var currPage = <%=currPage%>;
-        window.onload = function () {
-            var note = new window.hellogood.note();
-            note.init();
-            if (currPage != null) {
-                note.load(currPage, page.pageParams.pageSize);
-            } else {
-                note.load(page.pageParams.page, page.pageParams.pageSize);
-            }
-            $('.form_datetime').datepicker();
-        }
-    </script>
 </head>
 <body>
 <%@ include file="../common/location.jsp" %>
@@ -115,5 +98,21 @@
     <div id="note_List_grid"></div>
     <div class="text-right" id="note_list_pagetool"></div>
 </div>
+<script type="text/javascript" src="../../js/lightbox/js/lightbox.js"></script>
+<script src="../user/user-list.js?${ts}"></script>
+<script src="note-list.js?${ts}"></script>
+<script type="text/javascript">
+    var currPage = <%=currPage%>;
+    window.onload = function () {
+        var note = new window.hellogood.note();
+        note.init();
+        if (currPage != null) {
+            note.load(currPage, page.pageParams.pageSize);
+        } else {
+            note.load(page.pageParams.page, page.pageParams.pageSize);
+        }
+        $('.form_datetime').datepicker();
+    }
+</script>
 </body>
 </html>

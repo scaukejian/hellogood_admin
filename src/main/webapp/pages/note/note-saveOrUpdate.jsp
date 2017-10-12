@@ -1,13 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/ckeditor/ckeditor.js?${ts}"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/common/base64.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/common/jquery.qrcode.min.js"></script>
 <style>
     .custom_li input {
         margin-left: 5px;
     }
-
     .custom_li button {
         margin-left: 5px;
     }
@@ -128,5 +123,6 @@
             </tbody>
         </table>
     </form>
-
 </div>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/ckeditor/ckeditor.js?${ts}"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/common/base64.js?${ts}"></script>
