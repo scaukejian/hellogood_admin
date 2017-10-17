@@ -110,7 +110,7 @@
             <ul>
                 <li class="ftl">
                     <button type="button" class="btn btn-blue" id="user_add">新增</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-blue" id="user_del">删除</button>
+                    <%--<button type="button" class="btn btn-blue" id="user_del">删除</button>--%>
                 </li>
             </ul>
         </div>
