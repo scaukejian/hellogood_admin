@@ -11,7 +11,7 @@ window.hellogood.note = function() {
 	var columns = [
 		{
 			name : '姓名',
-			width:'250px',
+			width:'200px',
 			dataIndex : 'userName',
 			renderer : function(data) {
 				if(data.userName != null && data.userName != ''){
@@ -35,6 +35,7 @@ window.hellogood.note = function() {
         },
         {
             name : '类型',
+			width: '70px',
             renderer : function(data) {
                 if(data.type != null && data.type != ''){
                     return data.type + '计划';
@@ -98,6 +99,7 @@ window.hellogood.note = function() {
 		];
 	var operateCol = {
 		name : '操作',
+        width: '70px',
 		align: "center",
 		renderer : function(data) {
 			var _html = '<a id="update"><font color="#099854"><b>修改</b></font></a>';
