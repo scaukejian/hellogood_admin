@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>便签列表</title>
+    <title>计划列表</title>
     <%
         String currPage = request.getParameter("currPage");
     %>

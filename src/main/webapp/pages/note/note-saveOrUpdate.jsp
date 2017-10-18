@@ -96,7 +96,7 @@
                 </td>
             </tr>
             <tr>
-                <th width="20%">便签类型：</th>
+                <th width="20%">计划类型：</th>
                 <td width="70%">
                     <select type="text" name="type" class="form-control" id="note_type" datatype="Require">
                         <option value="">请选择</option>

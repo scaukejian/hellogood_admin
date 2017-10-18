@@ -164,7 +164,7 @@ window.hellogood.note = function() {
 
 	var showNoteInfo = function(id) {
 		var viewNoteMsgBox = msgBox({
-			title : '便签详情',
+			title : '计划详情',
 			width : windowWidth,
 			height : windowHeight,
 			url : "note/list/note-saveOrUpdate.do",
@@ -187,7 +187,7 @@ window.hellogood.note = function() {
 
 	var addNote = function() {
 		var addNoteMsgBox = msgBox({
-			title : '新增便签',
+			title : '新增计划',
 			width : windowWidth,
 			height : windowHeight,
 			url : "note/list/note-saveOrUpdate.do",
@@ -225,7 +225,7 @@ window.hellogood.note = function() {
 
 	var showUpdateNoteBox = function(id){
 		var updateNoteMsgBox = msgBox({
-			title : '修改便签信息',
+			title : '修改计划信息',
 			width : windowWidth,
 			height : windowHeight,
 			url : "note/list/note-saveOrUpdate.do",

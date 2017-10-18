@@ -38,12 +38,12 @@ public class NoteService {
         if (vo.getUserId() == null && StringUtils.isBlank(vo.getPhoneUniqueCode()))
             throw new BusinessException("请输入正确的账号或者手机唯一标识");
         if (StringUtils.isBlank(vo.getContent()))
-            throw new BusinessException("操作失败: 便签内容不能为空");
+            throw new BusinessException("操作失败: 计划内容不能为空");
         vo.setContent(DataUtil.strToconent(vo.getContent())); //过滤编辑器的特殊格式
         if (vo.getContent().length() > 5000)
             throw new BusinessException("操作失败: 内容长度不能大于5000个字符");
         if (StringUtils.isBlank(vo.getType()))
-            throw new BusinessException("操作失败: 请选择便签类型");
+            throw new BusinessException("操作失败: 请选择计划类型");
     }
 
     /**
@@ -203,7 +203,7 @@ public class NoteService {
 
 
     /**
-     * 查找便签id集合
+     * 查找计划id集合
      * @param queryVo
      * @return
      */
