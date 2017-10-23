@@ -77,7 +77,7 @@ window.hellogood.note = function() {
 			}
 		},
         {
-            name : '是否置顶',
+            name : '是否置顶/收藏',
             renderer : function(data) {
                 if (data.top == 1) {
                     return "<a>是</a>";
@@ -87,7 +87,29 @@ window.hellogood.note = function() {
             }
         },
         {
-            name : '有效状态',
+            name : '是否完成',
+            renderer : function(data) {
+                if (data.finish == 1) {
+                    return "<a>已完成<a>";
+                } else if (data.finish == 0) {
+                    return "未完成";
+                } else {
+                    return '';
+                }
+            }
+        },
+        {
+            name : '是否展示',
+            renderer : function(data) {
+                if (data.display == 1) {
+                    return "<a>展示<a>";
+                } else {
+                    return '隐藏（回收站）';
+                }
+            }
+        },
+        {
+            name : '是否有效',
             renderer : function(data) {
                 if (data.validStatus == 1) {
                     return "<a>有效<a>";

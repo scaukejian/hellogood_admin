@@ -11,6 +11,7 @@
     <result column="valid_status" property="validStatus" jdbcType="INTEGER" />
     <result column="display" property="display" jdbcType="INTEGER" />
     <result column="top" property="top" jdbcType="INTEGER" />
+    <result column="finish" property="finish" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="color" property="color" jdbcType="VARCHAR" />
   </resultMap>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_id, phone_unique_code, content, create_time, update_time, valid_status, 
-    display, top, type, color
+    display, top, finish, type, color
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hellogood.domain.NoteExample" >
     select
@@ -106,15 +107,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hellogood.domain.Note" >
+  <insert id="insert" parameterType="com.hellogood.domain.Note" useGeneratedKeys="true" keyProperty="id">
     insert into api_note (id, user_id, phone_unique_code, 
       content, create_time, update_time, 
       valid_status, display, top, 
-      type, color)
+      finish, type, color
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{phoneUniqueCode,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{validStatus,jdbcType=INTEGER}, #{display,jdbcType=INTEGER}, #{top,jdbcType=INTEGER}, 
-      #{type,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR})
+      #{finish,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hellogood.domain.Note" >
     insert into api_note
@@ -145,6 +148,9 @@
       </if>
       <if test="top != null" >
         top,
+      </if>
+      <if test="finish != null" >
+        finish,
       </if>
       <if test="type != null" >
         type,
@@ -180,6 +186,9 @@
       </if>
       <if test="top != null" >
         #{top,jdbcType=INTEGER},
+      </if>
+      <if test="finish != null" >
+        #{finish,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
@@ -219,6 +228,9 @@
       <if test="record.top != null" >
         top = #{record.top,jdbcType=INTEGER},
       </if>
+      <if test="record.finish != null" >
+        finish = #{record.finish,jdbcType=INTEGER},
+      </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=VARCHAR},
       </if>
@@ -241,6 +253,7 @@
       valid_status = #{record.validStatus,jdbcType=INTEGER},
       display = #{record.display,jdbcType=INTEGER},
       top = #{record.top,jdbcType=INTEGER},
+      finish = #{record.finish,jdbcType=INTEGER},
       type = #{record.type,jdbcType=VARCHAR},
       color = #{record.color,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -274,6 +287,9 @@
       <if test="top != null" >
         top = #{top,jdbcType=INTEGER},
       </if>
+      <if test="finish != null" >
+        finish = #{finish,jdbcType=INTEGER},
+      </if>
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
@@ -293,6 +309,7 @@
       valid_status = #{validStatus,jdbcType=INTEGER},
       display = #{display,jdbcType=INTEGER},
       top = #{top,jdbcType=INTEGER},
+      finish = #{finish,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
       color = #{color,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

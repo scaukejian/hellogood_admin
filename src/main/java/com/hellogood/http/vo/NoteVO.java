@@ -44,6 +44,17 @@ public class NoteVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
 
+
+    private Integer finish;
+
+    public Integer getFinish() {
+        return finish;
+    }
+
+    public void setFinish(Integer finish) {
+        this.finish = finish;
+    }
+
     public String getUserCode() {
         return userCode;
     }

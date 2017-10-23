@@ -58,8 +58,9 @@ public class NoteService {
         domain.setCreateTime(new Date());
         domain.setUpdateTime(new Date());
         domain.setValidStatus(Code.STATUS_VALID);
-        domain.setDisplay(Code.STATUS_VALID);
-        domain.setTop(Code.STATUS_INVALID);
+        if (vo.getDisplay() == null) domain.setDisplay(Code.STATUS_VALID);
+        if (vo.getTop() == null) domain.setTop(Code.STATUS_INVALID);
+        if (vo.getFinish() == null) domain.setFinish(Code.STATUS_INVALID);
         noteMapper.insert(domain);
     }
 
@@ -92,7 +93,7 @@ public class NoteService {
             Integer noteId = Integer.parseInt(idStr);
             Note note = noteMapper.selectByPrimaryKey(noteId);
             if (note == null) continue;
-            note.setDisplay(Code.STATUS_INVALID);
+            note.setValidStatus(Code.STATUS_INVALID);
             noteMapper.updateByPrimaryKeySelective(note);
         }
     }
@@ -152,10 +153,12 @@ public class NoteService {
             criteria.andContentLike(MessageFormat.format("%{0}%", queryVo.getContent()));
         if (StringUtils.isNotBlank(queryVo.getType()))
             criteria.andTypeEqualTo(queryVo.getType());
-        if (queryVo.getValidStatus() != null)
-            criteria.andValidStatusEqualTo(queryVo.getValidStatus());
         if (queryVo.getTop() != null)
             criteria.andTopEqualTo(queryVo.getTop());
+        if (queryVo.getFinish() != null)
+            criteria.andFinishEqualTo(queryVo.getFinish());
+        if (queryVo.getDisplay() != null)
+            criteria.andDisplayEqualTo(queryVo.getDisplay());
         if (queryVo.getStartDate() != null) // 开始日期
             criteria.andCreateTimeGreaterThanOrEqualTo(queryVo.getStartDate());
         // 截止日期
@@ -168,7 +171,7 @@ public class NoteService {
             criteria.andCreateTimeLessThanOrEqualTo(calendar.getTime());
         }
 
-        criteria.andDisplayEqualTo(Code.STATUS_VALID);
+        criteria.andValidStatusEqualTo(Code.STATUS_VALID);
         example.setOrderByClause(" top desc, update_time desc");
         PageHelper.startPage(page, pageSize);
         List<Note> list = noteMapper.selectByExample(example);

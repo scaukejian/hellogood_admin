@@ -665,6 +665,66 @@ public class NoteExample {
             return (Criteria) this;
         }
 
+        public Criteria andFinishIsNull() {
+            addCriterion("finish is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishIsNotNull() {
+            addCriterion("finish is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishEqualTo(Integer value) {
+            addCriterion("finish =", value, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishNotEqualTo(Integer value) {
+            addCriterion("finish <>", value, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishGreaterThan(Integer value) {
+            addCriterion("finish >", value, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishGreaterThanOrEqualTo(Integer value) {
+            addCriterion("finish >=", value, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishLessThan(Integer value) {
+            addCriterion("finish <", value, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishLessThanOrEqualTo(Integer value) {
+            addCriterion("finish <=", value, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishIn(List<Integer> values) {
+            addCriterion("finish in", values, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishNotIn(List<Integer> values) {
+            addCriterion("finish not in", values, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishBetween(Integer value1, Integer value2) {
+            addCriterion("finish between", value1, value2, "finish");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishNotBetween(Integer value1, Integer value2) {
+            addCriterion("finish not between", value1, value2, "finish");
+            return (Criteria) this;
+        }
+
         public Criteria andTypeIsNull() {
             addCriterion("type is null");
             return (Criteria) this;

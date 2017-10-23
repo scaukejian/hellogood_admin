@@ -21,6 +21,8 @@ public class Note {
 
     private Integer top;
 
+    private Integer finish;
+
     private String type;
 
     private String color;
@@ -95,6 +97,14 @@ public class Note {
 
     public void setTop(Integer top) {
         this.top = top;
+    }
+
+    public Integer getFinish() {
+        return finish;
+    }
+
+    public void setFinish(Integer finish) {
+        this.finish = finish;
     }
 
     public String getType() {

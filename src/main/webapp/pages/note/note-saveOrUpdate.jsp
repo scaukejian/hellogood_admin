@@ -76,22 +76,32 @@
                 </td>
             </tr>
             <tr>
-                <th width="20%">有效状态：</th>
-                <td width="70%">
-                    <select type="text" name="validStatus" class="form-control" id="note_validStatus">
-                        <option value="">请选择</option>
-                        <option value="1">有效</option>
-                        <option value="0">无效</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
                 <th width="20%">是否置顶：</th>
                 <td width="70%">
                     <select type="text" name="top" class="form-control" id="note_top">
                         <option value="">请选择</option>
                         <option value="1">是</option>
                         <option value="0">否</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th width="20%">完成状态：</th>
+                <td width="70%">
+                    <select type="text" name="finish" class="form-control" id="note_finish">
+                        <option value="">请选择</option>
+                        <option value="1">已完成</option>
+                        <option value="0">未完成</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th width="20%">是否展示：</th>
+                <td width="70%">
+                    <select type="text" name="display" class="form-control" id="note_display">
+                        <option value="">请选择</option>
+                        <option value="1">展示</option>
+                        <option value="0">隐藏（回收站）</option>
                     </select>
                 </td>
             </tr>

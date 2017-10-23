@@ -43,17 +43,21 @@
                                 <option value="0">否</option>
                             </select>
                         </td>
-                        <th width="5%">有效状态：</th>
+                        <th width="5%">完成状态：</th>
                         <td width="15%">
-                            <select class="form-control" name="validStatus">
+                            <select class="form-control" name="finish">
                                 <option value="">请选择</option>
-                                <option value="1">有效</option>
-                                <option value="0">无效</option>
+                                <option value="1">已完成</option>
+                                <option value="0">未完成</option>
                             </select>
                         </td>
-                        <th width="5%"></th>
+                        <th width="5%">展示状态：</th>
                         <td width="15%">
-                            <button type="button" id="note_list_select" class="btn btn-blue">查询</button>
+                            <select class="form-control" name="display">
+                                <option value="">请选择</option>
+                                <option value="1">展示</option>
+                                <option value="0">隐藏（回收站）</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -75,6 +79,10 @@
                                 <i class="icon-calendar-a"></i>
                             </div>
                         </td>
+                        <th width="5%"></th>
+                        <td width="15%">
+                            <button type="button" id="note_list_select" class="btn btn-blue">查询</button>
+                        </td>
                     </tr>
                 </table>
             </form>
@@ -84,8 +92,8 @@
                 <li class="ftl">
                     <button type="button" class="btn btn-blue" id="note_add">新增</button>&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="button" class="btn btn-blue" id="note_del">删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-blue" id="note_disabled">停用</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-blue" id="note_enabled">启用</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%--<button type="button" class="btn btn-blue" id="note_disabled">停用</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-blue" id="note_enabled">启用</button>&nbsp;&nbsp;&nbsp;&nbsp;--%>
                 </li>
             </ul>
         </div>
