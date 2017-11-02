@@ -27,6 +27,8 @@ public class Note {
 
     private String color;
 
+    private Integer folderId;
+
     public Integer getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class Note {
 
     public void setColor(String color) {
         this.color = color == null ? null : color.trim();
+    }
+
+    public Integer getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(Integer folderId) {
+        this.folderId = folderId;
     }
 }

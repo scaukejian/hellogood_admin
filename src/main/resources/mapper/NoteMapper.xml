@@ -14,6 +14,7 @@
     <result column="finish" property="finish" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="folder_id" property="folderId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_id, phone_unique_code, content, create_time, update_time, valid_status, 
-    display, top, finish, type, color
+    display, top, finish, type, color, folder_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hellogood.domain.NoteExample" >
     select
@@ -111,13 +112,13 @@
     insert into api_note (id, user_id, phone_unique_code, 
       content, create_time, update_time, 
       valid_status, display, top, 
-      finish, type, color
-      )
+      finish, type, color, 
+      folder_id)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{phoneUniqueCode,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{validStatus,jdbcType=INTEGER}, #{display,jdbcType=INTEGER}, #{top,jdbcType=INTEGER}, 
-      #{finish,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}
-      )
+      #{finish,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
+      #{folderId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hellogood.domain.Note" >
     insert into api_note
@@ -158,6 +159,9 @@
       <if test="color != null" >
         color,
       </if>
+      <if test="folderId != null" >
+        folder_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -195,6 +199,9 @@
       </if>
       <if test="color != null" >
         #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="folderId != null" >
+        #{folderId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -237,6 +244,9 @@
       <if test="record.color != null" >
         color = #{record.color,jdbcType=VARCHAR},
       </if>
+      <if test="record.folderId != null" >
+        folder_id = #{record.folderId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -255,7 +265,8 @@
       top = #{record.top,jdbcType=INTEGER},
       finish = #{record.finish,jdbcType=INTEGER},
       type = #{record.type,jdbcType=VARCHAR},
-      color = #{record.color,jdbcType=VARCHAR}
+      color = #{record.color,jdbcType=VARCHAR},
+      folder_id = #{record.folderId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -296,6 +307,9 @@
       <if test="color != null" >
         color = #{color,jdbcType=VARCHAR},
       </if>
+      <if test="folderId != null" >
+        folder_id = #{folderId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -311,7 +325,8 @@
       top = #{top,jdbcType=INTEGER},
       finish = #{finish,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
-      color = #{color,jdbcType=VARCHAR}
+      color = #{color,jdbcType=VARCHAR},
+      folder_id = #{folderId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
