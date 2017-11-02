@@ -4,10 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hellogood.constant.Code;
 import com.hellogood.constant.EhCacheCode;
-import com.hellogood.domain.*;
+import com.hellogood.domain.Folder;
+import com.hellogood.domain.FolderExample;
+import com.hellogood.domain.User;
+import com.hellogood.domain.UserExample;
 import com.hellogood.exception.BusinessException;
-import com.hellogood.http.vo.NoteVO;
-import com.hellogood.mapper.NoteMapper;
+import com.hellogood.http.vo.FolderVO;
+import com.hellogood.mapper.FolderMapper;
 import com.hellogood.mapper.UserMapper;
 import com.hellogood.utils.DataUtil;
 import org.apache.commons.lang.StringUtils;
@@ -18,68 +21,50 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * NoteService
+ * FolderService
  * Create by kejian
  */
 @Service
 @Transactional
-public class NoteService {
+public class FolderService {
 
     @Autowired
-    private NoteMapper noteMapper;
+    private FolderMapper folderMapper;
     @Autowired
     private UserMapper userMapper;
 
-    private void checkCommon(NoteVO vo){
-        if (vo.getUserId() == null && StringUtils.isBlank(vo.getPhoneUniqueCode()))
-            throw new BusinessException("请输入正确的账号或者手机唯一标识");
-        if (StringUtils.isBlank(vo.getContent()))
-            throw new BusinessException("操作失败: 计划内容不能为空");
-        vo.setContent(DataUtil.strToconent(vo.getContent())); //过滤编辑器的特殊格式
-        if (vo.getContent().length() > 5000)
-            throw new BusinessException("操作失败: 内容长度不能大于5000个字符");
-        if (StringUtils.isBlank(vo.getType()))
-            throw new BusinessException("操作失败: 请选择计划类型");
+    private void checkCommon(FolderVO vo){
+        if (StringUtils.isBlank(vo.getName()))
+            throw new BusinessException("操作失败: 文件夹名称不能为空");
+        if (vo.getName().length() > 20)
+            throw new BusinessException("操作失败: 文件夹名称不能大于20个字符");
+        if (vo.getId() == null) {
+            if (vo.getSystemFolder() == null)
+                throw new BusinessException("操作失败: 请选择是否系统文件夹");
+            if (vo.getSystemFolder() == Code.STATUS_INVALID && vo.getUserId() == null)
+                throw new BusinessException("操作失败：非系统文件夹必须输入该文件夹所属用户姓名");
+        }
     }
 
     /**
      * 新增
      * @param vo
      */
-    public void add(NoteVO vo) {
+    public void add(FolderVO vo) {
         checkCommon(vo);
-        if (StringUtils.isBlank(vo.getColor())) vo.setColor("#FFF");
-        Note domain = new Note();
+        Folder domain = new Folder();
         vo.vo2Domain(domain);
         domain.setCreateTime(new Date());
         domain.setUpdateTime(new Date());
         domain.setValidStatus(Code.STATUS_VALID);
-        if (vo.getDisplay() == null) domain.setDisplay(Code.STATUS_VALID);
-        if (vo.getTop() == null) domain.setTop(Code.STATUS_INVALID);
-        if (vo.getFinish() == null) domain.setFinish(Code.STATUS_INVALID);
-        noteMapper.insert(domain);
-    }
-
-    /**
-     * 设置状态
-     * @param ids
-     */
-    public void setStatus(String ids, Integer status) {
-        if (StringUtils.isBlank(ids)) throw new BusinessException("请选择要操作的记录");
-        if (status == null) throw new BusinessException("参数有误");
-        String[] idStrArr = ids.split(",");
-        for (String idStr : idStrArr) {
-            Integer noteId = Integer.parseInt(idStr);
-            Note note = noteMapper.selectByPrimaryKey(noteId);
-            if (note == null) continue;
-            if (status == note.getValidStatus()) continue;
-            note.setValidStatus(status);
-            noteMapper.updateByPrimaryKeySelective(note);
-        }
+        folderMapper.insert(domain);
     }
 
     /**
@@ -90,11 +75,11 @@ public class NoteService {
         if (StringUtils.isBlank(ids)) throw new BusinessException("请选择要删除的记录");
         String[] idStrArr = ids.split(",");
         for (String idStr : idStrArr) {
-            Integer noteId = Integer.parseInt(idStr);
-            Note note = noteMapper.selectByPrimaryKey(noteId);
-            if (note == null) continue;
-            note.setValidStatus(Code.STATUS_INVALID);
-            noteMapper.updateByPrimaryKeySelective(note);
+            Integer folderId = Integer.parseInt(idStr);
+            Folder folder = folderMapper.selectByPrimaryKey(folderId);
+            if (folder == null) continue;
+            folder.setValidStatus(Code.STATUS_INVALID);
+            folderMapper.updateByPrimaryKeySelective(folder);
         }
     }
 
@@ -102,20 +87,20 @@ public class NoteService {
      * 修改
      * @param vo
      */
-    public void update(NoteVO vo) {
+    public void update(FolderVO vo) {
         checkCommon(vo);
-        Note domain = new Note();
+        Folder domain = new Folder();
         vo.vo2Domain(domain);
         domain.setUpdateTime(new Date());
-        noteMapper.updateByPrimaryKeySelective(domain);
+        folderMapper.updateByPrimaryKeySelective(domain);
     }
     /**
      * 获取数据
      * @param id
      * @return
      */
-    public Note getNote(Integer id) {
-        return noteMapper.selectByPrimaryKey(id);
+    public Folder getFolder(Integer id) {
+        return folderMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -124,10 +109,10 @@ public class NoteService {
      * @return
      */
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public NoteVO get(Integer id) {
-        NoteVO vo = new NoteVO();
+    public FolderVO get(Integer id) {
+        FolderVO vo = new FolderVO();
         if (id == null)  return vo;
-        Note domain = getNote(id);
+        Folder domain = getFolder(id);
         vo.domain2Vo(domain);
         supplement(vo);
         return vo;
@@ -141,23 +126,15 @@ public class NoteService {
      * @return
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public PageInfo pageQuery(NoteVO queryVo, int page, int pageSize) {
-        NoteExample example = new NoteExample();
-        NoteExample.Criteria criteria = example.createCriteria();
+    public PageInfo pageQuery(FolderVO queryVo, int page, int pageSize) {
+        FolderExample example = new FolderExample();
+        FolderExample.Criteria criteria = example.createCriteria();
         if(StringUtils.isNotBlank(queryVo.getUserName()) || StringUtils.isNotBlank(queryVo.getPhone()))
             criteria.andUserIdIn(getUserIds(queryVo));
-        if (StringUtils.isNotBlank(queryVo.getPhoneUniqueCode()))
-            criteria.andPhoneUniqueCodeLike(MessageFormat.format("%{0}%", queryVo.getPhoneUniqueCode()));
-        if (StringUtils.isNotBlank(queryVo.getContent()))
-            criteria.andContentLike(MessageFormat.format("%{0}%", queryVo.getContent()));
-        if (StringUtils.isNotBlank(queryVo.getType()))
-            criteria.andTypeEqualTo(queryVo.getType());
-        if (queryVo.getTop() != null)
-            criteria.andTopEqualTo(queryVo.getTop());
-        if (queryVo.getFinish() != null)
-            criteria.andFinishEqualTo(queryVo.getFinish());
-        if (queryVo.getDisplay() != null)
-            criteria.andDisplayEqualTo(queryVo.getDisplay());
+        if (StringUtils.isNotBlank(queryVo.getName()))
+            criteria.andNameLike(MessageFormat.format("%{0}%", queryVo.getName()));
+        if (queryVo.getSystemFolder() != null)
+            criteria.andSystemFolderEqualTo(queryVo.getSystemFolder());
         if (queryVo.getStartDate() != null) // 开始日期
             criteria.andCreateTimeGreaterThanOrEqualTo(queryVo.getStartDate());
         // 截止日期
@@ -169,22 +146,21 @@ public class NoteService {
             calendar.set(Calendar.SECOND, 59);
             criteria.andCreateTimeLessThanOrEqualTo(calendar.getTime());
         }
-
         criteria.andValidStatusEqualTo(Code.STATUS_VALID);
-        example.setOrderByClause(" top desc, update_time desc");
+        example.setOrderByClause(" system_folder desc, update_time desc");
         PageHelper.startPage(page, pageSize);
-        List<Note> list = noteMapper.selectByExample(example);
+        List<Folder> list = folderMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(list);
-        List<NoteVO> voList = domainList2VoList(list);
+        List<FolderVO> voList = domainList2VoList(list);
         pageInfo.getList().clear();
         pageInfo.getList().addAll(voList);
         return pageInfo;
     }
 
-    private List<NoteVO> domainList2VoList(List<Note> domainList) {
-        List<NoteVO> voList = new ArrayList<>(domainList.size());
-        for (Note domain : domainList) {
-            NoteVO vo = new NoteVO();
+    private List<FolderVO> domainList2VoList(List<Folder> domainList) {
+        List<FolderVO> voList = new ArrayList<>(domainList.size());
+        for (Folder domain : domainList) {
+            FolderVO vo = new FolderVO();
             vo.domain2Vo(domain);
             supplement(vo);
             voList.add(vo);
@@ -192,7 +168,7 @@ public class NoteService {
         return voList;
     }
 
-    public void supplement(NoteVO vo) {
+    public void supplement(FolderVO vo) {
         if (vo.getUserId() != null) {
             User user = userMapper.selectByPrimaryKey(vo.getUserId());
             if (user != null) {
@@ -205,11 +181,11 @@ public class NoteService {
 
 
     /**
-     * 查找计划id集合
+     * 查找文件夹id集合
      * @param queryVo
      * @return
      */
-    public List<Integer> getUserIds(NoteVO queryVo) {
+    public List<Integer> getUserIds(FolderVO queryVo) {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         if (StringUtils.isNotBlank(queryVo.getUserName()))
