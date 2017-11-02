@@ -29,6 +29,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import com.hellogood.http.vo.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -48,13 +49,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.hellogood.enumeration.BaseDataType;
 import com.hellogood.exception.BusinessException;
-import com.hellogood.http.vo.BaseDataVO;
-import com.hellogood.http.vo.BaseVO;
-import com.hellogood.http.vo.EmployeeVO;
-import com.hellogood.http.vo.MessageVO;
-import com.hellogood.http.vo.NoticeVO;
-import com.hellogood.http.vo.RegisterVO;
-import com.hellogood.http.vo.RoleVO;
 import com.hellogood.service.BaseDataService;
 import com.hellogood.service.EmpRoleRelationService;
 import com.hellogood.service.ErrLogService;
@@ -856,5 +850,48 @@ public class BaseController {
             }
             rowIndex++;
         }
+    }
+
+    /**
+     * 上传截图（共用）
+     * @param selectUploadVO
+     * @return
+     */
+    public void uploadSelectPhoto(SelectUploadVO selectUploadVO, Map<String, Object> map, HttpServletRequest request) {
+
+        validImgFormat(selectUploadVO.getFileName());
+
+        String filePath = selectUploadVO.getFileName().substring(
+                selectUploadVO.getFileName().lastIndexOf("_") + 1, selectUploadVO.getFileName().length());
+        String suffix = filePath.substring(filePath.lastIndexOf("."));
+
+        String sourceFilePath = generateTmpFolderPath();
+        StringBuffer sourcePath = new StringBuffer();
+        sourcePath.append(sourceFilePath);
+        sourcePath.append(selectUploadVO.getFileName());
+
+        StringBuffer targetPath = new StringBuffer();
+        int empId = getCurrentEmployeeId(request).intValue();
+        targetPath.append(generateFolderPath(empId));
+        String folderName = generateFolderName(empId);
+
+        // 头像重命名规则 文件夹名+photo+UUID+后缀名
+        String fileName = folderName
+                + "_photo-"+ UUID.randomUUID()
+                + filePath.substring(filePath.indexOf("."));
+        targetPath.append(fileName);
+
+        cutImageByXY(suffix.substring(1), sourcePath.toString(),
+                targetPath.toString(), selectUploadVO.getStartX(),
+                selectUploadVO.getStartY(), selectUploadVO.getEndX(),
+                selectUploadVO.getEndY());
+
+        File file=new File(sourcePath.toString());
+        if (file.isFile() && file.exists()) {
+            file.delete();
+        }
+        map.put("imgName", fileName);//返回物理存储图片名称
+        map.put("originalImgName", selectUploadVO.getOriginalImgName());//返回上传图片名称
+        map.put(STATUS, STATUS_SUCCESS);
     }
 }

@@ -100,7 +100,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hellogood.domain.Picture" >
+  <insert id="insert" parameterType="com.hellogood.domain.Picture" useGeneratedKeys="true" keyProperty="id">
     insert into api_picture (id, type, file_name, 
       original_file_name, create_time, valid_status
       )
