@@ -24,15 +24,10 @@
                         <th width="5%">内容：</th>
                         <td width="15%"><input type="text" name="content" class="form-control"></td>
                     <tr>
-                        <th width="5%">类型：</th>
+                        <th width="5%">文件夹：</th>
                         <td width="15%">
-                            <select class="form-control" name="type">
+                            <select class="form-control"  name="folderId" id="folderId" >
                                 <option value="">请选择</option>
-                                <option value="日">日计划</option>
-                                <option value="周">周计划</option>
-                                <option value="月">月计划</option>
-                                <option value="季">季计划</option>
-                                <option value="年">年计划</option>
                             </select>
                         </td>
                         <th width="5%">是否置顶：</th>

@@ -3,7 +3,6 @@ package com.hellogood.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hellogood.constant.Code;
-import com.hellogood.constant.EhCacheCode;
 import com.hellogood.domain.*;
 import com.hellogood.exception.BusinessException;
 import com.hellogood.http.vo.NoteVO;
@@ -12,7 +11,6 @@ import com.hellogood.mapper.UserMapper;
 import com.hellogood.utils.DataUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +31,8 @@ public class NoteService {
     private NoteMapper noteMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FolderService folderService;
 
     private void checkCommon(NoteVO vo){
         if (vo.getUserId() == null && StringUtils.isBlank(vo.getPhoneUniqueCode()))
@@ -42,8 +42,10 @@ public class NoteService {
         vo.setContent(DataUtil.strToconent(vo.getContent())); //过滤编辑器的特殊格式
         if (vo.getContent().length() > 5000)
             throw new BusinessException("操作失败: 内容长度不能大于5000个字符");
-        if (StringUtils.isBlank(vo.getType()))
-            throw new BusinessException("操作失败: 请选择计划类型");
+        if (vo.getFolderId() == null || vo.getFolderId() == 0)
+            throw new BusinessException("操作失败: 请选择所属文件夹");
+        Folder folder = folderService.getFolder(vo.getFolderId());
+        if (folder == null) throw new BusinessException("操作失败: 文件夹id有误");
     }
 
     /**
@@ -150,8 +152,8 @@ public class NoteService {
             criteria.andPhoneUniqueCodeLike(MessageFormat.format("%{0}%", queryVo.getPhoneUniqueCode()));
         if (StringUtils.isNotBlank(queryVo.getContent()))
             criteria.andContentLike(MessageFormat.format("%{0}%", queryVo.getContent()));
-        if (StringUtils.isNotBlank(queryVo.getType()))
-            criteria.andTypeEqualTo(queryVo.getType());
+        if (queryVo.getFolderId() != null)
+            criteria.andFolderIdEqualTo(queryVo.getFolderId());
         if (queryVo.getTop() != null)
             criteria.andTopEqualTo(queryVo.getTop());
         if (queryVo.getFinish() != null)
@@ -200,6 +202,10 @@ public class NoteService {
                 vo.setUserName(user.getUserName());
                 vo.setPhone(user.getPhone());
             }
+        }
+        if (vo.getFolderId() != null) {
+            Folder folder = folderService.getFolder(vo.getFolderId());
+            vo.setFolderName(folder.getName());
         }
     }
 

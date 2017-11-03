@@ -44,8 +44,27 @@ public class NoteVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
 
-
     private Integer finish;
+
+    private Integer folderId;
+
+    private String folderName;
+
+    public String getFolderName() {
+        return folderName;
+    }
+
+    public void setFolderName(String folderName) {
+        this.folderName = folderName;
+    }
+
+    public Integer getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(Integer folderId) {
+        this.folderId = folderId;
+    }
 
     public Integer getFinish() {
         return finish;

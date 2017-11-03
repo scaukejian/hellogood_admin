@@ -34,14 +34,8 @@ window.hellogood.note = function() {
             dataIndex : 'phoneUniqueCode'
         },
         {
-            name : '类型',
-			width: '70px',
-            renderer : function(data) {
-                if(data.type != null && data.type != ''){
-                    return data.type + '计划';
-                }
-                return '';
-            }
+            name : '文件夹',
+        	dataIndex : 'folderName'
         },
         {
             name : "内容",
@@ -244,6 +238,7 @@ window.hellogood.note = function() {
 			}
 		});
 		addNoteMsgBox.show();
+        noteFolderInit();
         CKEDITOR.replace("content");
 	};
 
@@ -281,11 +276,44 @@ window.hellogood.note = function() {
 		});
 		window.hellogood.updateNoteMsgBox = updateNoteMsgBox;
 		updateNoteMsgBox.show();
+        noteFolderInit();
 		getNote(id);
        $('#note_userName').attr("readonly","readonly");
        $('#note_phoneUniqueCode').attr("readonly","readonly");
 		return updateNoteMsgBox;
 	}
+
+    var noteFolderInit = function(){
+        util.hellogoodAjax({
+            url: 'select/getSystemFolderList.do',
+            async: false,
+            succFun: function (json) {
+                var domMsgs = [{
+                    domId : 'note_folderId',
+                    jsonObj : 'dataList',
+                    key : 'id',
+                    value : 'name'
+                }];
+                util.selectPadData(domMsgs, json);
+            }
+        });
+    }
+
+    var queryDataInit = function () {
+        util.hellogoodAjax({
+            url: 'select/getSystemFolderList.do',
+            async: false,
+            succFun: function (json) {
+                var domMsgs = [{
+                    domId : 'folderId',
+                    jsonObj : 'dataList',
+                    key : 'id',
+                    value : 'name'
+                }];
+                util.selectPadData(domMsgs, json);
+            }
+        });
+    };
 
 	var updateNote = function(id) {
 		var updateNoteMsgBox = showUpdateNoteBox(id);
@@ -398,6 +426,7 @@ window.hellogood.note = function() {
 
 	var init = function() {
 		uiInit();
+        queryDataInit();
 		bindEvent();
 	};
 
