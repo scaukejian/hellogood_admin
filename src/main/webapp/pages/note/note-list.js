@@ -11,7 +11,7 @@ window.hellogood.note = function() {
 	var columns = [
 		{
 			name : '姓名',
-			width:'200px',
+			width:'170px',
 			dataIndex : 'userName',
 			renderer : function(data) {
 				if(data.userName != null && data.userName != ''){
@@ -35,6 +35,7 @@ window.hellogood.note = function() {
         },
         {
             name : '文件夹',
+            width:'60px',
         	dataIndex : 'folderName'
         },
         {
@@ -63,6 +64,7 @@ window.hellogood.note = function() {
         },
 		{
 			name : '创建时间',
+            width:'150px',
 			renderer : function(data) {
 				if (data.createTime != null) {
 					return util.date.toDateAll(data.createTime);
