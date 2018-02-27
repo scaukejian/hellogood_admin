@@ -111,6 +111,8 @@
                 <td>
                     <select class="form-control" name="maritalStatus" id="user_maritalStatus">
                         <option value="">请选择</option>
+                        <option value="未婚">未婚</option>
+                        <option value="已婚">已婚</option>
                     </select>
                 </td>
                 <th>学校：</th>
@@ -146,3 +148,4 @@
 </div>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/common/base64.js"></script>
+

@@ -240,7 +240,13 @@ window.hellogood.user = function() {
 		});
 		addUserMsgBox.show();
 		msgBoxDataInit();
-        CKEDITOR.replace("userRemarkEditor");
+
+        CKEDITOR.replace('userRemarkEditor',{
+            language : 'zh-cn',
+            filebrowserImageUploadUrl : '../../user/uploadEditor.do',
+            image_previewText : '图片预览'
+        });
+
         $('#profilePictureDiv').html(' <input type="file" id="photo_upload" name="file" style="display: none;"/> ' +
             '<div class="position form-group showPhotos" id="photos_show"> ' +
             '<div onclick="photoUpload()" style="float: left; width: 55px; height: 55px; border: 1px solid #000; text-align: center; ' +
@@ -324,7 +330,12 @@ window.hellogood.user = function() {
 					return;
 				}
 				// HTML编辑器设置data数据
-                CKEDITOR.replace("userRemarkEditor");
+                //CKEDITOR.replace("userRemarkEditor");
+                CKEDITOR.replace('userRemarkEditor',{
+                    language : 'zh-cn',
+                    filebrowserImageUploadUrl : '../../user/uploadEditor.do',
+                    image_previewText : '图片预览'
+                });
 				if (util.isNotBlank(json.data.remark)) {
 					CKEDITOR.instances.userRemarkEditor
 						.setData(json.data.remark)
@@ -409,20 +420,6 @@ window.hellogood.user = function() {
     };
 
 	var msgBoxDataInit = function() {
-		// 下拉初始化
-		util.hellogoodAjax({
-			url : 'select/user.do',
-			async : false,
-			succFun : function(json) {
-				var domMsgs = [ {
-					domId : 'user_maritalStatus',
-					jsonObj : 'marry',
-					key : 'name',
-					value : 'name'
-				}];
-				util.selectPadData(domMsgs, json);
-			}
-		});
 	};
 
 	var queryDataInit = function () {

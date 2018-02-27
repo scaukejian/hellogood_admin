@@ -1,6 +1,7 @@
 package com.hellogood.http.controller;
 
 import com.hellogood.domain.Folder;
+import com.hellogood.http.vo.BaseDataVO;
 import com.hellogood.service.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,5 +30,4 @@ public class SelectController extends BaseController {
 		map.put(STATUS, STATUS_SUCCESS);
 		return map;
 	}
-
 }

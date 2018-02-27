@@ -241,7 +241,11 @@ window.hellogood.note = function() {
 		});
 		addNoteMsgBox.show();
         noteFolderInit();
-        CKEDITOR.replace("content");
+        CKEDITOR.replace('content',{
+            language : 'zh-cn',
+            filebrowserImageUploadUrl : '../../note/uploadEditor.do',
+            image_previewText : '图片预览'
+        });
 	};
 
 	var showUpdateNoteBox = function(id){
@@ -330,7 +334,11 @@ window.hellogood.note = function() {
 					return;
 				}
 				// HTML编辑器设置data数据
-                CKEDITOR.replace("content");
+                CKEDITOR.replace('content',{
+                    language : 'zh-cn',
+                    filebrowserImageUploadUrl : '../../note/uploadEditor.do',
+                    image_previewText : '图片预览'
+                });
 				if (util.isNotBlank(json.data.content)) {
 					CKEDITOR.instances.content.setData(json.data.content)
 				}

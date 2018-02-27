@@ -9,25 +9,18 @@ import java.awt.image.BufferedImage;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.hellogood.http.vo.*;
 import org.apache.commons.codec.binary.Base64;
@@ -45,6 +38,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.hellogood.enumeration.BaseDataType;
@@ -516,7 +510,7 @@ public class BaseController {
      * @param imgName
      */
     public void validBase64ImgFormat(String imgFile){
-    	if(imgFile == null || imgFile.isEmpty() || !imgFile.contains(","))
+    	if(imgFile == null || imgFile.isEmpty() || !imgFile.contains("."))
 			throw new BusinessException("头像上传数据有误");
 		
 		//data:image/png;base64,base64编码的png图片数据  
@@ -893,5 +887,49 @@ public class BaseController {
         map.put("imgName", fileName);//返回物理存储图片名称
         map.put("originalImgName", selectUploadVO.getOriginalImgName());//返回上传图片名称
         map.put(STATUS, STATUS_SUCCESS);
+    }
+
+
+    /**
+     * 编辑器上传图片
+     * @param callback
+     * @param multipartFile
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    @ResponseBody
+    @RequestMapping(value = "/uploadEditor.do")
+    public void uploadEditorFile(
+            @RequestParam("CKEditorFuncNum") String callback,
+            @RequestParam("upload") MultipartFile multipartFile,
+            HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        logger.info("开始上传...");
+        // 当月几号
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        long beginTime = System.currentTimeMillis();
+        // 获取文件名称
+        String myFileName = multipartFile.getOriginalFilename();
+        validImgFormat(myFileName);
+        // 生成文件夹路径
+        String folderPath = generateFolderPath(day,"CKEditor");
+        String folderName = generateFolderName(day,"CKEditor");
+        // 头像重命名规则 文件夹名+header+UUID+后缀名
+        String fileName = folderName + "_" + UUID.randomUUID()
+                + myFileName.substring(myFileName.indexOf("."));
+        String basePath = request.getScheme() + "://"+ request.getServerName() + ":"
+                + request.getServerPort() + request.getContextPath();
+        String url = "/app/download.do?fileName=" + fileName;
+        url = basePath + url;
+        File localFile = new File(folderPath + fileName);
+        multipartFile.transferTo(localFile);
+        // 返回"图像"选项卡并显示图片 request.getContextPath()为web项目名
+        out.println("<script type=\"text/javascript\">");
+        out.println("window.parent.CKEDITOR.tools.callFunction("+ callback + ",'" + url + "','')");
+        out.println("</script>");
+        logger.info("上传完毕耗时 ： "+ (System.currentTimeMillis() - beginTime));
     }
 }
