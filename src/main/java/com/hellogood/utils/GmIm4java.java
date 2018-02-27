@@ -23,6 +23,7 @@ public class GmIm4java {
         int height = 400;//压缩后高度
         try {
             dramImg(picPath, drawPicPath , width, height);
+            System.out.println("压缩完成");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -54,7 +55,7 @@ public class GmIm4java {
         op.addImage(drawPicPath);
         ConvertCmd cmd = new ConvertCmd(true);
         String osName = System.getProperty("os.name").toLowerCase();
-        if(osName.indexOf("win") >= 0){
+        if(osName.indexOf("win") >= 0) {//linux下不要设置此值，不然会报错
             cmd.setSearchPath("C:\\Program Files\\GraphicsMagick-1.3.28-Q16"); //安装目录
         }
         cmd.setErrorConsumer(StandardStream.STDERR);
