@@ -323,6 +323,13 @@
             <version>4.1</version>
         </dependency>
 
+        <!-- IM4java + GraphicsMagick 图片压缩 -->
+        <dependency>
+            <groupId>org.im4java</groupId>
+            <artifactId>im4java</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
     </dependencies>
 
     <repositories>
